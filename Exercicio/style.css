@@ -70,3 +70,8 @@ form .inputField > div input {
     border-radius: 5px;
 }
 
+@media print {
+    .conteudo-esconder-pdf{
+      display: none !important;
+    }
+  }

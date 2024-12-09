@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalTitle = document.querySelector("#userForm .modal-title");
     const newUserBtn = document.querySelector(".newUser");
 
+    
+
     let getData = localStorage.getItem('userProfile') ? JSON.parse(localStorage.getItem('userProfile')) : [];
     let isEdit = false, editId;
 
@@ -80,5 +82,8 @@ document.addEventListener('DOMContentLoaded', function () {
         showInfo();
         resetForm();
     }
+    $(".botao-gerar-pdf").on("click", function(){
+        window.print();
+    });
 });
 

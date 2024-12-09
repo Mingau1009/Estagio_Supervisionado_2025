@@ -14,16 +14,22 @@
 <?php include("../Classe/Conexao.php") ?>
 <section class="p-3">
     <!-- Linha para o botão de Adicionar Exercício -->
-    <div class="row mb-3">
+    <div class="row mb-3 conteudo-esconder-pdf">
         <div class="col-12">
             <button class="btn btn-success newUser" data-bs-toggle="modal" data-bs-target="#userForm">
                 <i style='font-size:20px' class='fas'>&#xf44b;</i> Adicionar Exercício 
             </button>
+            <div class="d-inline">
+            <button class="btn btn-danger botao-gerar-pdf">
+                <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
+            </button>
+            </div>
         </div>
     </div>
     
+    
     <!-- Linha para a barra de busca, agora abaixo do botão -->
-    <div class="row mb-3">
+    <div class="row mb-3 conteudo-esconder-pdf">
         <div class="col-12 text-start">
             <div class="input-group short-input">
                 <span class="input-group-text" id="basic-addon1">
