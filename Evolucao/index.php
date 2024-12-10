@@ -7,16 +7,32 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<?php include("../Classe/Conexao.php") ?>
     <br>
-    
+    <tbody>
+    <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
+    </tbody>
     <div class="container">
         <h2>Evolução do Aluno</h2>
+        <div class="col-md-12">
+            <label>ALUNO</label>
+            <select name="aluno_id" class="form-control">
+                <option value="">SELECIONE...</option>
+                <?php foreach($alunos as $aluno) { ?>
+                    <option value="<?php echo $aluno->id; ?>"><?php echo $aluno->nome; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+        
+        
+        
         <div class="image-comparison">
             <div class="preview-img before">
                 <h3>Antes</h3>
                 <img src="image-placeholder.svg" alt="" id="beforeImg">
                 <input type="date" id="dateBefore">
             </div>
+            
             <br>
             <div class="preview-img after">
                 <h3>Depois</h3>
@@ -25,6 +41,7 @@
             </div>
             <br>
         </div>
+        
 
         <div class="controls">
             <input type="file" id="beforeInput" accept="image/*">

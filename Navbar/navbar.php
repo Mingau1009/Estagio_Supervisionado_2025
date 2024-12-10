@@ -13,9 +13,6 @@
                     <a class="nav-link" href="../Ficha">FICHA</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../Financeiro">FINANCEIRO</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="../Funcionario">FUNCIONÁRIO</a>
                 </li>
                 <li class="nav-item">

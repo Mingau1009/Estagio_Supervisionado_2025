@@ -55,8 +55,8 @@
             <div class="dropdown d-inline">
                 <button class="btn btn-warning dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">ORDENAR</button>
                 <ul class="dropdown-menu filtro-opcoes" aria-labelledby="filterDropdown">
-                    <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=DESC">ÚLTIMOS ALUNOS</a></li>
-                    <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=ASC">PRIMEIROS ALUNOS</a></li>
+                    <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=DESC">ALUNOS ATIVOS</a></li>
+                    <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=ASC">ALUNOS INATIVOS</a></li>
                 </ul>
             </div>
         </div>
@@ -85,9 +85,9 @@
             }
             
             if($ordenar == "ASC"){
-                $sql .= (" ORDER BY `data_matricula` ASC");
+                $sql .= (" ORDER BY `ativo` ASC");
             }else if($ordenar == "DESC"){
-                $sql .= (" ORDER BY `data_matricula` DESC");
+                $sql .= (" ORDER BY `ativo` DESC");
             }
 
             $executar = Db::conexao()->query($sql);
@@ -130,6 +130,11 @@
                             data-ativo="<?php echo $aluno->ativo; ?>">
                             EDITAR
                         </button>
+                         
+                            
+                            <a class="conteudo-esconder-pdf btn btn-info btn-sm p-0 ps-2 pe-2 " href="../Evolucao/index.php">EVOLUÇÃO</a>
+                            
+                        
                     </td>
                 </tr>
             <?php } ?>

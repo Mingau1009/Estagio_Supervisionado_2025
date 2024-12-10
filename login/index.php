@@ -79,7 +79,7 @@
             const senha = document.getElementById('senha').value;
 
             if (usuario === 'academia@gmail.com' && senha === 'mf') {
-                window.location.href = '../Dashboard/MenuAdministrativo.php'; 
+                window.location.href = '../Matricula/index.php'; 
             } else {
                 alert('Usuário ou senha incorretos. Por favor, tente novamente.'); 
                 document.getElementById('senha').value = '';
