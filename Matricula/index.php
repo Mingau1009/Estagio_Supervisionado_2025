@@ -132,7 +132,7 @@
                         </button>
                          
                             
-                            <a class="conteudo-esconder-pdf btn btn-info btn-sm p-0 ps-2 pe-2 " href="../Evolucao/index.php">EVOLUÇÃO</a>
+                            <a class="conteudo-esconder-pdf btn btn-info btn-sm p-0 ps-2 pe-2 " href="../Evolucao/index.php?aluno_id=<?php echo $aluno->id; ?>">EVOLUÇÃO</a>
                             
                         
                     </td>

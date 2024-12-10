@@ -216,6 +216,8 @@ $(document).ready(function() {
             }
         });
     }); 
-
+    $(".botao-gerar-pdf").on("click", function(){
+        window.print();
+    });
 });
 

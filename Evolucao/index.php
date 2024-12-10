@@ -3,49 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+
     <title>Antes e Depois de Imagens</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php include("../Classe/Conexao.php") ?>
+
+<?php $aluno_id = isset($_GET["aluno_id"]) ? $_GET["aluno_id"] : NULL; ?>
     <br>
     <tbody>
-    <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
+
+    <?php $aluno = Db::conexao()->query("SELECT * FROM `aluno` WHERE `id` = {$aluno_id}")->fetch(PDO::FETCH_OBJ);?>
+
     </tbody>
     <div class="container">
-        <h2>Evolução do Aluno</h2>
-        <div class="col-md-12">
-            <label>ALUNO</label>
-            <select name="aluno_id" class="form-control">
-                <option value="">SELECIONE...</option>
-                <?php foreach($alunos as $aluno) { ?>
-                    <option value="<?php echo $aluno->id; ?>"><?php echo $aluno->nome; ?></option>
-                <?php } ?>
-            </select>
-        </div>
-        
-        
-        
+        <?php if($aluno) { ?>
+            <h2>Evolução do Aluno: <?php echo $aluno->nome; ?></h2>
+        <?php } else { ?>
+            <h2>Evolução do Aluno</h2>
+        <?php }  ?>
+               
         <div class="image-comparison">
             <div class="preview-img before">
                 <h3>Antes</h3>
                 <img src="image-placeholder.svg" alt="" id="beforeImg">
-                <input type="date" id="dateBefore">
+                <input type="date" id="dateBefore" class="form-control mb-2">
+                <input type="file" id="beforeInput" accept="image/*" class="form-control">
             </div>
             
             <br>
             <div class="preview-img after">
                 <h3>Depois</h3>
                 <img src="image-placeholder.svg" alt="" id="afterImg">
-                <input type="date" id="dateAfter">
+                <input type="date" id="dateAfter" class="form-control mb-2">
+                <input type="file" id="afterInput" accept="image/*" class="form-control">
             </div>
             <br>
         </div>
         
 
         <div class="controls">
-            <input type="file" id="beforeInput" accept="image/*">
-            <input type="file" id="afterInput" accept="image/*">
             <br>
             <br>
             <button id="uploadBtn">Carregar Imagens</button>

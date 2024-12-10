@@ -23,11 +23,19 @@
         <?php $exercicios = Db::conexao()->query("SELECT * FROM `exercicio` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
         <?php $fichas = Db::conexao()->query("SELECT `ficha`.*, `aluno`.`nome` AS aluno_nome FROM `ficha` INNER JOIN `aluno` ON `aluno`.`id` = `ficha`.`aluno_id`")->fetchAll(PDO::FETCH_OBJ); ?>
 
-        <div class="text-end">
-            <button class="btn btn-success botao-cadastrar" data-bs-toggle="modal" data-bs-target="#cadastrar">
+        <div class="text-end conteudo-esconder-pdf">
+            <button class="btn btn-success botao-cadastrar " data-bs-toggle="modal" data-bs-target="#cadastrar">
                 CADASTRAR
             </button>
         </div>   
+        <br>
+        <div class="col-12 text-end conteudo-esconder-pdf">
+            <div class="d-inline">
+                <button class="btn btn-danger botao-gerar-pdf ">
+                    <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
+                </button>
+            </div>
+        </div>
 
         <table class="table table-striped table-hover mt-3 text-center table-bordered">
             <thead>
@@ -36,7 +44,7 @@
                     <th>NOME</th>
                     <th>DIA DE TREINO</th>
                     <th>EXERCÍCIOS</th>
-                    <th>AJUSTES</th>
+                    <th class="conteudo-esconder-pdf">AJUSTES</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +61,7 @@
                                 <?php } ?>
                             </ol>
                         </td>
-                        <td>
+                        <td class="conteudo-esconder-pdf">
                             <button 
                                 class="conteudo-esconder-pdf btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-ficha"
                                 data-id="<?php echo $ficha->id; ?>"
