@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10-Dez-2024 às 02:05
--- Versão do servidor: 10.4.27-MariaDB
--- versão do PHP: 7.4.33
+-- Tempo de geração: 16/12/2024 às 20:07
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `aluno`
+-- Estrutura para tabela `aluno`
 --
 
 CREATE TABLE `aluno` (
@@ -40,7 +40,7 @@ CREATE TABLE `aluno` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Extraindo dados da tabela `aluno`
+-- Despejando dados para a tabela `aluno`
 --
 
 INSERT INTO `aluno` (`id`, `nome`, `data_nascimento`, `telefone`, `endereco`, `frequencia`, `objetivo`, `data_matricula`, `ativo`) VALUES
@@ -50,7 +50,20 @@ INSERT INTO `aluno` (`id`, `nome`, `data_nascimento`, `telefone`, `endereco`, `f
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `exercicio`
+-- Estrutura para tabela `evolucao`
+--
+
+CREATE TABLE `evolucao` (
+  `id` int(11) NOT NULL,
+  `aluno_id` int(11) NOT NULL,
+  `caminho` varchar(100) NOT NULL,
+  `data_envio` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `exercicio`
 --
 
 CREATE TABLE `exercicio` (
@@ -61,7 +74,7 @@ CREATE TABLE `exercicio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `exercicio`
+-- Despejando dados para a tabela `exercicio`
 --
 
 INSERT INTO `exercicio` (`nome`, `tipo_exercicio`, `grupo_muscular`, `id`) VALUES
@@ -77,7 +90,7 @@ INSERT INTO `exercicio` (`nome`, `tipo_exercicio`, `grupo_muscular`, `id`) VALUE
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ficha`
+-- Estrutura para tabela `ficha`
 --
 
 CREATE TABLE `ficha` (
@@ -88,7 +101,7 @@ CREATE TABLE `ficha` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `ficha`
+-- Despejando dados para a tabela `ficha`
 --
 
 INSERT INTO `ficha` (`id`, `aluno_id`, `nome`, `dia_treino`) VALUES
@@ -104,7 +117,7 @@ INSERT INTO `ficha` (`id`, `aluno_id`, `nome`, `dia_treino`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ficha_exercicio`
+-- Estrutura para tabela `ficha_exercicio`
 --
 
 CREATE TABLE `ficha_exercicio` (
@@ -117,7 +130,7 @@ CREATE TABLE `ficha_exercicio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `ficha_exercicio`
+-- Despejando dados para a tabela `ficha_exercicio`
 --
 
 INSERT INTO `ficha_exercicio` (`id`, `ficha_id`, `exercicio_id`, `num_series`, `num_repeticoes`, `tempo_descanso`) VALUES
@@ -141,7 +154,7 @@ INSERT INTO `ficha_exercicio` (`id`, `ficha_id`, `exercicio_id`, `num_series`, `
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `funcionario`
+-- Estrutura para tabela `funcionario`
 --
 
 CREATE TABLE `funcionario` (
@@ -156,7 +169,7 @@ CREATE TABLE `funcionario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Extraindo dados da tabela `funcionario`
+-- Despejando dados para a tabela `funcionario`
 --
 
 INSERT INTO `funcionario` (`id`, `nome`, `data_nascimento`, `telefone`, `endereco`, `turno_disponivel`, `data_matricula`, `ativo`) VALUES
@@ -168,37 +181,43 @@ INSERT INTO `funcionario` (`id`, `nome`, `data_nascimento`, `telefone`, `enderec
 --
 
 --
--- Índices para tabela `aluno`
+-- Índices de tabela `aluno`
 --
 ALTER TABLE `aluno`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `exercicio`
+-- Índices de tabela `evolucao`
+--
+ALTER TABLE `evolucao`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `exercicio`
 --
 ALTER TABLE `exercicio`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `ficha`
+-- Índices de tabela `ficha`
 --
 ALTER TABLE `ficha`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `ficha_exercicio`
+-- Índices de tabela `ficha_exercicio`
 --
 ALTER TABLE `ficha_exercicio`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `funcionario`
+-- Índices de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
@@ -206,6 +225,12 @@ ALTER TABLE `funcionario`
 --
 ALTER TABLE `aluno`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de tabela `evolucao`
+--
+ALTER TABLE `evolucao`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `exercicio`
