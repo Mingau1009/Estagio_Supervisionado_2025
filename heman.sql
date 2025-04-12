@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 16/12/2024 às 20:07
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Tempo de geração: 12-Abr-2025 às 16:29
+-- Versão do servidor: 10.4.27-MariaDB
+-- versão do PHP: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,13 +24,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `aluno`
+-- Estrutura da tabela `aluno`
 --
 
 CREATE TABLE `aluno` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) DEFAULT NULL,
   `data_nascimento` date DEFAULT NULL,
+  `cpf` char(11) NOT NULL,
   `telefone` varchar(255) DEFAULT NULL,
   `endereco` varchar(255) DEFAULT NULL,
   `frequencia` int(11) DEFAULT NULL,
@@ -40,30 +41,27 @@ CREATE TABLE `aluno` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Despejando dados para a tabela `aluno`
+-- Extraindo dados da tabela `aluno`
 --
 
-INSERT INTO `aluno` (`id`, `nome`, `data_nascimento`, `telefone`, `endereco`, `frequencia`, `objetivo`, `data_matricula`, `ativo`) VALUES
-(11, 'Wesley Marcelino', '2003-09-23', '44 997168633', 'Rua Presidente Feliz Paiva 527', 5, 'Ficar musculoso', '2024-12-09', 1),
-(12, 'Rodrigo Maldonado', '1995-05-24', '11 998712434', 'Rua das Torres', 3, 'Ganhar massa muscular', '2016-08-21', 1);
+INSERT INTO `aluno` (`id`, `nome`, `data_nascimento`, `cpf`, `telefone`, `endereco`, `frequencia`, `objetivo`, `data_matricula`, `ativo`) VALUES
+(16, 'Alexandre Rossi Benassi', '2004-02-03', '44927847055', '44997011869', 'ave', 5, 'aaa', '2025-04-12', 1),
+(20, 'Alexandre Rossi Benassi', '2025-04-12', '58226792002', '44997011869', 'Avenida Guiomar Gas', 5, 'AAAA', '2025-04-12', 0),
+(24, 'Alexandre Rossi Benassi', '2025-04-03', '06592359005', '44997011869', 'Avenida Guiomar Gas', 5, 'AAAA', '2025-04-12', 0);
 
 -- --------------------------------------------------------
+CREATE TABLE `aulas` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `aluno_id` INT(11) NOT NULL,
+  `categoria_aula` VARCHAR(255) DEFAULT NULL,
+  `professor` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`aluno_id`) REFERENCES `aluno`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Estrutura para tabela `evolucao`
---
-
-CREATE TABLE `evolucao` (
-  `id` int(11) NOT NULL,
-  `aluno_id` int(11) NOT NULL,
-  `caminho` varchar(100) NOT NULL,
-  `data_envio` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
-
---
--- Estrutura para tabela `exercicio`
+-- Estrutura da tabela `exercicio`
 --
 
 CREATE TABLE `exercicio` (
@@ -74,7 +72,7 @@ CREATE TABLE `exercicio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `exercicio`
+-- Extraindo dados da tabela `exercicio`
 --
 
 INSERT INTO `exercicio` (`nome`, `tipo_exercicio`, `grupo_muscular`, `id`) VALUES
@@ -90,7 +88,7 @@ INSERT INTO `exercicio` (`nome`, `tipo_exercicio`, `grupo_muscular`, `id`) VALUE
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `ficha`
+-- Estrutura da tabela `ficha`
 --
 
 CREATE TABLE `ficha` (
@@ -101,7 +99,7 @@ CREATE TABLE `ficha` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `ficha`
+-- Extraindo dados da tabela `ficha`
 --
 
 INSERT INTO `ficha` (`id`, `aluno_id`, `nome`, `dia_treino`) VALUES
@@ -117,7 +115,7 @@ INSERT INTO `ficha` (`id`, `aluno_id`, `nome`, `dia_treino`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `ficha_exercicio`
+-- Estrutura da tabela `ficha_exercicio`
 --
 
 CREATE TABLE `ficha_exercicio` (
@@ -130,7 +128,7 @@ CREATE TABLE `ficha_exercicio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `ficha_exercicio`
+-- Extraindo dados da tabela `ficha_exercicio`
 --
 
 INSERT INTO `ficha_exercicio` (`id`, `ficha_id`, `exercicio_id`, `num_series`, `num_repeticoes`, `tempo_descanso`) VALUES
@@ -154,7 +152,7 @@ INSERT INTO `ficha_exercicio` (`id`, `ficha_id`, `exercicio_id`, `num_series`, `
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `funcionario`
+-- Estrutura da tabela `funcionario`
 --
 
 CREATE TABLE `funcionario` (
@@ -165,72 +163,62 @@ CREATE TABLE `funcionario` (
   `endereco` varchar(255) DEFAULT NULL,
   `turno_disponivel` varchar(255) DEFAULT NULL,
   `data_matricula` date NOT NULL,
-  `ativo` tinyint(1) DEFAULT 1
+  `ativo` tinyint(1) DEFAULT 1,
+  `cpf` varchar(11) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Despejando dados para a tabela `funcionario`
+-- Extraindo dados da tabela `funcionario`
 --
 
-INSERT INTO `funcionario` (`id`, `nome`, `data_nascimento`, `telefone`, `endereco`, `turno_disponivel`, `data_matricula`, `ativo`) VALUES
-(23, 'Alexandre Rossi Benassi', '2024-12-11', '44997011869', 'Avenida Guiomar Gaspar Batista ', 'Manhã', '2024-12-04', 0),
-(24, 'Luiz', '2024-12-06', '44997011869', 'asdasd', 'Manhã', '2025-01-02', 1);
+INSERT INTO `funcionario` (`id`, `nome`, `data_nascimento`, `telefone`, `endereco`, `turno_disponivel`, `data_matricula`, `ativo`, `cpf`) VALUES
+(27, 'Alexandre Rossi Benassi', '2004-02-03', '44997011869', 'ave', 'Manhã', '2025-04-12', 1, '44927847055');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `aluno`
+-- Índices para tabela `aluno`
 --
 ALTER TABLE `aluno`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cpf_unico` (`cpf`) USING BTREE;
 
 --
--- Índices de tabela `evolucao`
---
-ALTER TABLE `evolucao`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices de tabela `exercicio`
+-- Índices para tabela `exercicio`
 --
 ALTER TABLE `exercicio`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `ficha`
+-- Índices para tabela `ficha`
 --
 ALTER TABLE `ficha`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `ficha_exercicio`
+-- Índices para tabela `ficha_exercicio`
 --
 ALTER TABLE `ficha_exercicio`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `funcionario`
+-- Índices para tabela `funcionario`
 --
 ALTER TABLE `funcionario`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cpf_unico_funcionario` (`cpf`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
 -- AUTO_INCREMENT de tabela `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT de tabela `evolucao`
---
-ALTER TABLE `evolucao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de tabela `exercicio`
@@ -254,7 +242,7 @@ ALTER TABLE `ficha_exercicio`
 -- AUTO_INCREMENT de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

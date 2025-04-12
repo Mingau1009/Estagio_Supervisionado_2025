@@ -18,6 +18,7 @@
 
 <?php include("../Navbar/navbar.php"); ?>
 
+
 <?php $pesquisa = isset($_GET["pesquisa"]) ? $_GET["pesquisa"] : NULL; ?>
 <?php $ordenar = isset($_GET["ordenar"]) ? $_GET["ordenar"] : "ASC"; ?>
 
@@ -65,9 +66,10 @@
     <table class="table table-striped table-hover mt-3 text-center table-bordered table-sm">
         <thead>
             <tr>
-                <th>ATIVO?</th>
+                <th>STATUS</th>
                 <th>NOME</th>
                 <th>DATA DE NASCIMENTO</th>
+                <th>CPF</th>
                 <th>TELEFONE</th>
                 <th>ENDEREÇO</th>
                 <th>FREQUÊNCIA</th>
@@ -76,68 +78,9 @@
                 <th class="conteudo-esconder-pdf">AJUSTES</th>
             </tr>
         </thead>
-        <tbody>
-            <?php 
-            $sql = ("SELECT * FROM `aluno`"); 
 
-            if($pesquisa){
-                $sql .= (" WHERE `nome` LIKE '%{$pesquisa}%'");
-            }
-            
-            if($ordenar == "ASC"){
-                $sql .= (" ORDER BY `ativo` ASC");
-            }else if($ordenar == "DESC"){
-                $sql .= (" ORDER BY `ativo` DESC");
-            }
-
-            $executar = Db::conexao()->query($sql);
-            
-            $alunos = $executar->fetchAll(PDO::FETCH_OBJ);
-            ?>
-            <?php foreach ($alunos as $aluno) { ?>
-                <tr>
-                    <td>
-                        <?php if($aluno->ativo == 1) { ?>
-                            <span class="badge bg-success">ATIVO</span>
-                        <?php } else { ?>
-                            <span class="badge bg-danger">INATIVO</span>
-                        <?php } ?>
-                    </td>
-                    <td><?php echo $aluno->nome; ?></td>
-                    <td>
-                        <?php if($aluno->data_nascimento) { ?>
-                            <?php echo date('d/m/Y', strtotime($aluno->data_nascimento)); ?>
-                        <?php } else { ?>
-                            --
-                        <?php } ?>
-                    </td>
-                    <td><?php echo $aluno->telefone; ?></td>
-                    <td><?php echo $aluno->endereco; ?></td>
-                    <td><?php echo $aluno->frequencia; ?></td>
-                    <td><?php echo $aluno->objetivo; ?></td>
-                    <td><?php echo date('d/m/Y', strtotime($aluno->data_matricula)); ?></td>
-                    <td class="conteudo-esconder-pdf">
-                        <button 
-                            class="conteudo-esconder-pdf btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-matricula"
-                            data-id="<?php echo $aluno->id; ?>"
-                            data-nome="<?php echo $aluno->nome; ?>"
-                            data-data_nascimento="<?php echo $aluno->data_nascimento; ?>"
-                            data-telefone="<?php echo $aluno->telefone; ?>"
-                            data-endereco="<?php echo $aluno->endereco; ?>"
-                            data-frequencia="<?php echo $aluno->frequencia; ?>"
-                            data-objetivo="<?php echo $aluno->objetivo; ?>"
-                            data-data_matricula="<?php echo $aluno->data_matricula; ?>"
-                            data-ativo="<?php echo $aluno->ativo; ?>">
-                            EDITAR
-                        </button>
-                         
-                            
-                            <a class="conteudo-esconder-pdf btn btn-info btn-sm p-0 ps-2 pe-2 " href="../Evolucao/index.php?aluno_id=<?php echo $aluno->id; ?>">EVOLUÇÃO</a>
-                            
-                        
-                    </td>
-                </tr>
-            <?php } ?>
+        <?php include("../Matricula/cadastroSql.php"); ?>
+    
     </table>
 
 </section>
@@ -160,6 +103,10 @@
                         <div class="col-md-4">
                             <label>Data de Nascimento:</label>
                             <input type="date" name="data_nascimento" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Cpf:</label>
+                            <input type="text" name="cpf" required class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label>Telefone:</label>
@@ -213,6 +160,10 @@
                             <input type="date" name="data_nascimento" required class="form-control">
                         </div>
                         <div class="col-md-4">
+                            <label>Cpf:</label>
+                            <input type="text" name="cpf" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
                             <label>Telefone:</label>
                             <input type="text" name="telefone" required class="form-control">
                         </div>
@@ -233,7 +184,7 @@
                             <input type="date" name="data_matricula" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Ativo?:</label>
+                            <label>Status:</label>
                             <select name="ativo" class="form-control" required>
                                 <option value="1">ATIVO</option>
                                 <option value="0">INATIVO</option>

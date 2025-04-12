@@ -61,70 +61,24 @@
             </div>
         </div>
     </div>
-        
     <table class="table table-striped table-hover mt-3 text-center table-bordered table-sm">
-        <thead>
-            <tr>
-                <th>ATIVO?</th>
-                <th>NOME</th>
-                <th>DATA DE NASCIMENTO</th>
-                <th>TELEFONE</th>
-                <th>ENDEREÇO</th>
-                <th>TURNO DISPONIVEL</th>
-                <th>Data de Início</th>
-                <th class="conteudo-esconder-pdf">AJUSTES</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            $sql = ("SELECT * FROM `funcionario`"); 
-
-            if($pesquisa){
-                $sql .= (" WHERE `nome` LIKE '%{$pesquisa}%'");
-            }
-            
-            if($ordenar == "ASC"){
-                $sql .= (" ORDER BY `data_matricula` ASC");
-            }else if($ordenar == "DESC"){
-                $sql .= (" ORDER BY `data_matricula` DESC");
-            }
-
-            $executar = Db::conexao()->query($sql);
-            
-            $funcionarios = $executar->fetchAll(PDO::FETCH_OBJ);
-            ?>
-            <?php foreach ($funcionarios as $funcionario) { ?>
-                <tr>
-                    <td>
-                        <?php if($funcionario->ativo == 1) { ?>
-                            <span class="badge bg-success">ATIVO</span>
-                        <?php } else { ?>
-                            <span class="badge bg-danger">INATIVO</span>
-                        <?php } ?>
-                    </td>
-                    <td><?php echo $funcionario->nome; ?></td>
-                    <td><?php echo date('d/m/Y', strtotime($funcionario->data_nascimento)); ?></td>
-                    <td><?php echo $funcionario->telefone; ?></td>
-                    <td><?php echo $funcionario->endereco; ?></td>
-                    <td><?php echo $funcionario->turno_disponivel; ?></td>  
-                    <td><?php echo date('d/m/Y', strtotime($funcionario->data_matricula)); ?></td>
-                    <td class="conteudo-esconder-pdf">
-                        <button 
-                            class="conteudo-esconder-pdf btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-matricula"
-                            data-id="<?php echo $funcionario->id; ?>"
-                            data-nome="<?php echo $funcionario->nome; ?>"
-                            data-data_nascimento="<?php echo $funcionario->data_nascimento; ?>"
-                            data-telefone="<?php echo $funcionario->telefone; ?>"
-                            data-endereco="<?php echo $funcionario->endereco; ?>"
-                            data-turno_disponivel="<?php echo $funcionario->turno_disponivel; ?>"
-                            data-data_matricula="<?php echo $funcionario->data_matricula; ?>"
-                            data-ativo="<?php echo $funcionario->ativo; ?>">
-                            EDITAR
-                        </button>
-                    </td>
-                </tr>
-            <?php } ?>
+    <thead>
+        <tr>
+            <th>STATUS</th>
+            <th>NOME</th>
+            <th>DATA DE NASCIMENTO</th>
+            <th>CPF</th>
+            <th>TELEFONE</th>
+            <th>ENDEREÇO</th>
+            <th>TURNO DISPONIVEL</th>
+            <th>Data de Início</th>
+            <th class="conteudo-esconder-pdf">AJUSTES</th>
+        </tr>
+    </thead>
+    <?php include("../Funcionario/cadastrarSql.php"); ?>
     </table>
+        
+   
 
 </section>
 
@@ -146,6 +100,10 @@
                         <div class="col-md-4">
                             <label>Data de Nascimento:</label>
                             <input type="date" name="data_nascimento" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Cpf:</label>
+                            <input type="text" name="cpf" required class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label>Telefone:</label>
@@ -195,6 +153,10 @@
                             <input type="date" name="data_nascimento" required class="form-control">
                         </div>
                         <div class="col-md-4">
+                            <label>Cpf:</label>
+                            <input type="text" name="cpf" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
                             <label>Telefone:</label>
                             <input type="text" name="telefone" required class="form-control">
                         </div>
@@ -211,7 +173,7 @@
                             <input type="date" name="data_matricula" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Ativo?:</label>
+                            <label>Status:</label>
                             <select name="ativo" class="form-control" required>
                                 <option value="1">ATIVO</option>
                                 <option value="0">INATIVO</option>
