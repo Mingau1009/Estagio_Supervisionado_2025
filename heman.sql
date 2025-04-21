@@ -40,6 +40,7 @@ CREATE TABLE `aluno` (
   `ativo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 --
 -- Extraindo dados da tabela `aluno`
 --
@@ -50,13 +51,16 @@ INSERT INTO `aluno` (`id`, `nome`, `data_nascimento`, `cpf`, `telefone`, `endere
 (24, 'Alexandre Rossi Benassi', '2025-04-03', '06592359005', '44997011869', 'Avenida Guiomar Gas', 5, 'AAAA', '2025-04-12', 0);
 
 -- --------------------------------------------------------
+
 CREATE TABLE `aulas` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `aluno_id` INT(11) NOT NULL,
-  `categoria_aula` VARCHAR(255) DEFAULT NULL,
-  `professor` VARCHAR(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`aluno_id`) REFERENCES `aluno`(`id`) ON DELETE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_aluno` varchar(255) DEFAULT NULL,
+  `categoria_aula` varchar(255) DEFAULT NULL,
+  `dia_semana` varchar(20) DEFAULT NULL,
+  `horario_inicio` time DEFAULT NULL,
+  `professor` varchar(255) DEFAULT NULL,
+  `local_aula` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 

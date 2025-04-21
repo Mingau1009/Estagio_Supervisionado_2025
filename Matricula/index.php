@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
     <title>ALUNOS</title>
@@ -31,20 +32,20 @@
             CADASTRAR <i class="bi bi-people"></i>
         </button>
     </div>
-
     <form method="get" class="mb-2 conteudo-esconder-pdf">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="hidden" name="ordenar" value="<?php echo $ordenar; ?>">
-                    <input name="pesquisa" value="<?php echo $pesquisa; ?>" type="text" class="form-control" placeholder="Buscar por nome...">
-                    <div class="input-group-pprend">
-                        <button class="btn btn-success">PESQUISAR</button>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="hidden" name="ordenar" value="<?php echo $ordenar; ?>">
+                <input name="pesquisa" value="<?php echo $pesquisa; ?>" type="text" class="form-control" placeholder="Buscar por nome...">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
             </div>
         </div>
-    </form>
+    </div>
+</form>
+        </div>
+    </div>
+</form>
 
     <div class="col-12 text-end conteudo-esconder-pdf">
         <div class="d-inline">
@@ -65,18 +66,18 @@
         
     <table class="table table-striped table-hover mt-3 text-center table-bordered table-sm">
         <thead>
-            <tr>
-                <th>STATUS</th>
-                <th>NOME</th>
-                <th>DATA DE NASCIMENTO</th>
-                <th>CPF</th>
-                <th>TELEFONE</th>
-                <th>ENDEREÇO</th>
-                <th>FREQUÊNCIA</th>
-                <th>OBJETIVO</th>
-                <th>DATA MATRÍCULA</th>
-                <th class="conteudo-esconder-pdf">AJUSTES</th>
-            </tr>
+        <tr>
+            <th style="width: 50px;">STATUS</th>
+            <th style="width: 150px;">NOME</th>
+            <th style="width: 120px;">DATA DE NASCIMENTO</th>
+            <th style="width: 40px;">CPF</th>
+            <th style="width: 80px;">TELEFONE</th>
+            <th style="width: 140px;">ENDEREÇO</th>
+            <th style="width: 80px;">FREQUÊNCIA</th>
+            <th style="width: 150px;">OBJETIVO</th>
+            <th style="width: 80px;">DATA MATRÍCULA</th>
+            <th class="conteudo-esconder-pdf" style="width: 80px;">AJUSTES</th>
+        </tr>
         </thead>
 
         <?php include("../Matricula/cadastroSql.php"); ?>

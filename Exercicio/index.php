@@ -17,39 +17,48 @@
 <?php include("../Navbar/navbar.php"); ?>
 
 <section class="p-3">
-    <!-- Linha para o botão de Adicionar Exercício -->
-    <div class="row mb-3 conteudo-esconder-pdf">
-        <div class="col-12">
-            <button class="btn btn-success newUser" data-bs-toggle="modal" data-bs-target="#userForm">
-                <i style='font-size:20px' class='fas'>&#xf44b;</i> Adicionar Exercício 
-            </button>
-            <div class="d-inline">
+    <h3>EXERCÍCIOS</h3>
+
+    <div class="text-end mb-2 conteudo-esconder-pdf">
+        <button class="btn btn-success newUser " data-bs-toggle="modal" data-bs-target="#userForm">
+            <i style='font-size:20px' class='fas'>&#xf44b;</i> CADASTRAR EXERCÍCIO 
+        </button>
+    </div>
+
+    <form method="get" class="mb-2 conteudo-esconder-pdf">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar por nome...">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="col-12 text-end conteudo-esconder-pdf">
+        <div class="d-inline">
             <button class="btn btn-danger botao-gerar-pdf">
                 <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
             </button>
-            </div>
         </div>
     </div>
-    
-    
-    <!-- Linha para a barra de busca, agora abaixo do botão -->
-    
 </section>
 
 <br>
 
 <style>
     .short-input {
-        width: 800px !important;  /* Ajusta a largura da barra de busca */
-        max-width: 100%;  /* Garante que não ultrapasse o limite da tela */
+        width: 800px !important; 
+        max-width: 100%;  
     }
 
     .input-group {
-        max-width: 545px;  /* Limita a largura máxima do input-group */
+        max-width: 545px; 
     }
 
     .search-input {
-        max-width: 545px;  /* Garante que o campo de busca ocupe toda a largura disponível */
+        max-width: 545px;  
     }
 </style>
 
@@ -59,10 +68,10 @@
             <table class="table table-striped table-hover mt-3 text-center table-bordered">
                 <thead>
                     <tr>
-                        <th>Nome do exercício</th>
-                        <th>Tipo</th>
-                        <th>Grupo</th>
-                        <th>Configurações</th>
+                        <th>NOME DO EXERCÍCIO</th>
+                        <th>TIPO</th>
+                        <th>GRUPO</th>
+                        <th>AJUSTES</th>
                     </tr>
                 </thead>
                 <tbody>

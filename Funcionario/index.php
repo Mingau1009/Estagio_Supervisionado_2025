@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <title>FUNCIONÁRIOS</title>
@@ -26,53 +27,52 @@
     <h3>FUNCIONÁRIOS</h3>
 
     <div class="text-end mb-2 conteudo-esconder-pdf">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
-            CADASTRAR <i class="bi bi-people"></i>
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
+        CADASTRAR <i class="bi bi-people"></i>
+    </button>
+</div>
+
+<form method="get" class="mb-2 conteudo-esconder-pdf">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="hidden" name="ordenar" value="<?php echo $ordenar; ?>">
+                <input name="pesquisa" value="<?php echo $pesquisa; ?>" type="text" class="form-control" placeholder="Buscar por nome...">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div class="col-12 text-end conteudo-esconder-pdf">
+    <div class="d-inline">
+        <button class="btn btn-danger botao-gerar-pdf">
+            <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
         </button>
     </div>
-
-    <form method="get" class="mb-2 conteudo-esconder-pdf">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="hidden" name="ordenar" value="<?php echo $ordenar; ?>">
-                    <input name="pesquisa" value="<?php echo $pesquisa; ?>" type="text" class="form-control" placeholder="Buscar por nome...">
-                    <div class="input-group-pprend">
-                        <button class="btn btn-primary">PESQUISAR</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <div class="col-12 text-end conteudo-esconder-pdf">
-        <div class="d-inline">
-            <button class="btn btn-danger botao-gerar-pdf">
-                <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
-            </button>
-        </div>
-        <div class="d-inline">
-            <div class="dropdown d-inline">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">ORDENAR</button>
-                <ul class="dropdown-menu filtro-opcoes" aria-labelledby="filterDropdown">
-                    <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=DESC">ÚLTIMOS FUNCIONÁRIOS</a></li>
-                    <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=ASC">PRIMEIROS FUNCIONÁRIOS</a></li>
-                </ul>
-            </div>
+    <div class="d-inline">
+        <div class="dropdown d-inline">
+            <button class="btn btn-warning dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">ORDENAR</button>
+            <ul class="dropdown-menu filtro-opcoes" aria-labelledby="filterDropdown">
+                <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=DESC">ÚLTIMOS FUNCIONÁRIOS</a></li>
+                <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=ASC">PRIMEIROS FUNCIONÁRIOS</a></li>
+            </ul>
         </div>
     </div>
+</div>
     <table class="table table-striped table-hover mt-3 text-center table-bordered table-sm">
     <thead>
-        <tr>
-            <th>STATUS</th>
-            <th>NOME</th>
-            <th>DATA DE NASCIMENTO</th>
-            <th>CPF</th>
-            <th>TELEFONE</th>
-            <th>ENDEREÇO</th>
-            <th>TURNO DISPONIVEL</th>
-            <th>Data de Início</th>
-            <th class="conteudo-esconder-pdf">AJUSTES</th>
+    <tr>
+            <th style="width: 50px;">STATUS</th>
+            <th style="width: 150px;">NOME</th>
+            <th style="width: 120px;">DATA DE NASCIMENTO</th>
+            <th style="width: 40px;">CPF</th>
+            <th style="width: 80px;">TELEFONE</th>
+            <th style="width: 140px;">ENDEREÇO</th>
+            <th style="width: 40px;">TURNO DISPONÍVEL</th>
+            <th style="width: 80px;">DATA DE INÍCIO</th>
+            <th class="conteudo-esconder-pdf" style="width: 80px;">AJUSTES</th>
         </tr>
     </thead>
     <?php include("../Funcionario/cadastrarSql.php"); ?>
@@ -102,7 +102,7 @@
                             <input type="date" name="data_nascimento" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Cpf:</label>
+                            <label>CPF:</label>
                             <input type="text" name="cpf" required class="form-control">
                         </div>
                         <div class="col-md-4">
@@ -153,7 +153,7 @@
                             <input type="date" name="data_nascimento" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Cpf:</label>
+                            <label>CPF:</label>
                             <input type="text" name="cpf" required class="form-control">
                         </div>
                         <div class="col-md-4">

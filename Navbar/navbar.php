@@ -18,6 +18,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="../Exercicio">EXERCÍCIO</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../DEAULAS">DE AULAS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../PARAAULAS">PARA AULAS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../AGENDA">AGENDA</a>
+                </li>
             </ul>
         </div>
     </div>
