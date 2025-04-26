@@ -21,7 +21,7 @@
 
     <div class="text-end mb-2 conteudo-esconder-pdf">
         <button class="btn btn-success newUser " data-bs-toggle="modal" data-bs-target="#userForm">
-            <i style='font-size:20px' class='fas'>&#xf44b;</i> CADASTRAR EXERCÍCIO 
+            CADASTRAR EXERCÍCIO <i class="bi bi-people"></i>
         </button>
     </div>
 
@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Buscar por nome...">
+                    <input name="pesquisa" type="text" class="form-control" placeholder="Buscar por nome...">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
                 </div>
             </div>
@@ -42,10 +42,17 @@
                 <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
             </button>
         </div>
+        <div class="d-inline">
+            <div class="dropdown d-inline">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">ORDENAR</button>
+                <ul class="dropdown-menu filtro-opcoes" aria-labelledby="filterDropdown">
+                    <li><a class="dropdown-item" href="?ordenar=DESC">EXERCÍCIOS ATIVOS</a></li>
+                    <li><a class="dropdown-item" href="?ordenar=ASC">EXERCÍCIOS INATIVOS</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </section>
-
-<br>
 
 <style>
     .short-input {

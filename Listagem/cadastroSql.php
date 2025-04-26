@@ -60,5 +60,23 @@ function formatarTelefone($telefone) {
         <td><?php echo $aluno->frequencia; ?></td>
         <td><?php echo $aluno->objetivo; ?></td>
         <td><?php echo date('d/m/Y', strtotime($aluno->data_matricula)); ?></td>
+        <td class="conteudo-esconder-pdf">
+
+            <button 
+                class="conteudo-esconder-pdf btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-matricula"
+                data-id="<?php echo $aluno->id; ?>"
+                data-nome="<?php echo $aluno->nome; ?>"
+                data-data_nascimento="<?php echo $aluno->data_nascimento; ?>"
+                data-cpf="<?php echo $aluno->cpf; ?>"
+                data-telefone="<?php echo $aluno->telefone; ?>"
+                data-endereco="<?php echo $aluno->endereco; ?>"
+                data-frequencia="<?php echo $aluno->frequencia; ?>"
+                data-objetivo="<?php echo $aluno->objetivo; ?>"
+                data-data_matricula="<?php echo $aluno->data_matricula; ?>"
+                data-ativo="<?php echo $aluno->ativo; ?>">
+                EDITAR
+            </button>
+        
+        </td>
     </tr>
 <?php } ?>

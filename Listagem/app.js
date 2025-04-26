@@ -27,26 +27,7 @@ $(document).ready(function () {
         $("#formulario-editar select[name='ativo']").val(ativo);
     });
 
-    document.querySelector('.botao-gerar-pdf').addEventListener('click', function() {
-        // Importando jsPDF
-        const { jsPDF } = window.jspdf;
-
-        // Criando uma nova instância do jsPDF
-        const doc = new jsPDF();
-
-        // Definindo a cor do texto
-        doc.setTextColor(255, 0, 0); // Vermelho
-        doc.text("Este é um texto em vermelho!", 10, 10);
-
-        // Definindo a cor de fundo
-        doc.setFillColor(0, 255, 0); // Verde
-        doc.rect(10, 20, 180, 100, 'F'); // Desenha um retângulo preenchido
-
-        // Adicionando mais texto
-        doc.setTextColor(0, 0, 255); // Azul
-        doc.text("Este é um texto em azul sobre um fundo verde!", 15, 50);
-
-        // Salvando o PDF
-        doc.save("documento.pdf");
+    $(".botao-gerar-pdf").on("click", function(){
+        window.print();
     });
 });

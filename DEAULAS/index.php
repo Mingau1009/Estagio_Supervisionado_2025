@@ -17,26 +17,42 @@
 <?php include("../Navbar/navbar.php"); ?>
 
 <section class="p-3">
-    <!-- Linha para o botão de Adicionar Exercício -->
-    <div class="row mb-3 conteudo-esconder-pdf">
-        <div class="col-12">
-            <button class="btn btn-success newUser" data-bs-toggle="modal" data-bs-target="#userForm">
-                <i style='font-size:20px' class='fas'>&#xf44b;</i> Cadastro para Aula 
-            </button>
-            <div class="d-inline">
+    <h3>CADASTRO DE AULA</h3>
+
+    <div class="text-end mb-2 conteudo-esconder-pdf">
+        <button class="btn btn-success newUser " data-bs-toggle="modal" data-bs-target="#userForm">
+            CADASTRO PARA AULA <i class="bi bi-people"></i>
+        </button>
+    </div>
+
+    <form method="get" class="mb-2 conteudo-esconder-pdf">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar por nome...">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="col-12 text-end conteudo-esconder-pdf">
+        <div class="d-inline">
             <button class="btn btn-danger botao-gerar-pdf">
                 <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
             </button>
+        </div>
+        <div class="d-inline">
+            <div class="dropdown d-inline">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">ORDENAR</button>
+                <ul class="dropdown-menu filtro-opcoes" aria-labelledby="filterDropdown">
+                    <li><a class="dropdown-item" href="?ordenar=DESC">AULAS ATIVAS</a></li>
+                    <li><a class="dropdown-item" href="?ordenar=ASC">AULAS INATIVAS</a></li>
+                </ul>
             </div>
         </div>
     </div>
-    
-    
-    <!-- Linha para a barra de busca, agora abaixo do botão -->
-    
 </section>
-
-<br>
 
 <style>
     .short-input {
@@ -59,10 +75,11 @@
             <table class="table table-striped table-hover mt-3 text-center table-bordered">
                 <thead>
                     <tr>
-                        <th>Categoria da Aula</th>
-                        <th>Horario da Aula</th>
-                        <th>Professor</th>
-                        <th>Configurações</th>
+                        <th>NOME DA AULA</th>
+                        <th>DIA DA AULA</th>
+                        <th>HORARIO DA AULA</th>
+                        <th>PROFESSOR</th>
+                        <th>AJUSTES</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,22 +90,18 @@
     foreach ($aulas as $aula) {
 ?>
     <tr>
-        <td><?php echo $aula->nome_aluno; ?></td>
-        <td><?php echo $aula->categoria_aula; ?></td>
+        <td><?php echo $aula->nome_aula; ?></td>
         <td><?php echo $aula->dia_semana; ?></td>
         <td><?php echo $aula->horario_inicio; ?></td>
         <td><?php echo $aula->professor; ?></td>
-        <td><?php echo $aula->local_aula; ?></td>
         <td class="conteudo-esconder-pdf">
             <button 
                 class="btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-aula"
                 data-id="<?php echo $aula->id; ?>"
-                data-nome_aluno="<?php echo $aula->nome_aluno; ?>"
-                data-categoria_aula="<?php echo $aula->categoria_aula; ?>"
+                data-nome_aula="<?php echo $aula->nome_aula; ?>"
                 data-dia_semana="<?php echo $aula->dia_semana; ?>"
                 data-horario_inicio="<?php echo $aula->horario_inicio; ?>"
-                data-professor="<?php echo $aula->professor; ?>"
-                data-local_aula="<?php echo $aula->local_aula; ?>">
+                data-professor="<?php echo $aula->professor; ?>">
                 EDITAR
             </button>
         </td>
@@ -108,12 +121,7 @@
                 <div class="modal-body">
                     <div class="inputField">
                         <div class="mb-3">
-                            <label for="studentName" class="form-label">Nome do Aluno:</label>
-                            <input type="text" id="studentName" name="nome_aluno" class="form-control small-input" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="classCategory" class="form-label">Categoria da Aula:</label>
+                            <label for="classCategory" class="form-label">Nome da Aula:</label>
                             <input type="text" id="classCategory" name="categoria_aula" class="form-control small-input" required>
                         </div>
 
@@ -140,10 +148,6 @@
                             <input type="text" id="teacherName" name="professor" class="form-control small-input" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="classLocation" class="form-label">Local da Aula:</label>
-                            <input type="text" id="classLocation" name="local_aula" class="form-control small-input" required>
-                        </div>
                     </div>
                 </div>
 
@@ -168,13 +172,9 @@
 
 <div class="modal-body">
     <div class="inputField">
-        <div class="mb-3">
-            <label for="studentName" class="form-label">Nome do Aluno:</label>
-            <input type="text" id="studentName" name="nome_aluno" class="form-control small-input" required>
-        </div>
 
         <div class="mb-3">
-            <label for="classCategory" class="form-label">Categoria da Aula:</label>
+            <label for="classCategory" class="form-label">Nome da Aula:</label>
             <input type="text" id="classCategory" name="categoria_aula" class="form-control small-input" required>
         </div>
 
@@ -198,12 +198,7 @@
 
         <div class="mb-3">
             <label for="teacherName" class="form-label">Professor:</label>
-            <input type="text" id="teacherName" name="professor" class="form-control small-input" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="classLocation" class="form-label">Local da Aula:</label>
-            <input type="text" id="classLocation" name="local_aula" class="form-control small-input" required>
+            <input type="text" id="teacherName" name="professor_aula" class="form-control small-input" required>
         </div>
     </div>
 </div>

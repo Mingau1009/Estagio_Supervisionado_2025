@@ -25,7 +25,7 @@
 
 <section class="p-3">
     
-    <h3>ALUNOS</h3>
+    <h3>LISTAGEM</h3>
 
     <div class="text-end mb-2 conteudo-esconder-pdf">
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
@@ -68,18 +68,19 @@
         <thead>
         <tr>
             <th style="width: 50px;">STATUS</th>
-            <th style="width: 150px;">NOME</th>
+            <th style="width: 200px;">NOME</th>
             <th style="width: 120px;">DATA DE NASCIMENTO</th>
             <th style="width: 40px;">CPF</th>
-            <th style="width: 100px;">TELEFONE</th>
-            <th style="width: 140px;">ENDEREÇO</th>
-            <th style="width: 80px;">FREQUÊNCIA</th>
+            <th style="width: 120px;">TELEFONE</th>
+            <th style="width: 180px;">ENDEREÇO</th>
+            <th style="width: 50px;">FREQUÊNCIA</th>
             <th style="width: 150px;">OBJETIVO</th>
-            <th style="width: 80px;">DATA MATRÍCULA</th>
+            <th style="width: 120px;">DATA MATRÍCULA</th>
+            <th class="conteudo-esconder-pdf" style="width: 180px;">AJUSTES</th>
         </tr>
         </thead>
 
-        <?php include("../Matricula/cadastroSql.php"); ?>
+        <?php include("../Listagem/cadastroSql.php"); ?>
     
     </table>
 
@@ -139,31 +140,71 @@
     </div>
 </form>
 
+<!-- EDITAR -->
+<form method="POST" id="formulario-editar" action="editar.php">
+    <input type="hidden" name="id" class="form-control">
+    <div class="modal fade" id="editar" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">EDITAR</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Nome Completo:</label>
+                            <input type="text" name="nome" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Data de Nascimento:</label>
+                            <input type="date" name="data_nascimento" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>CPF:</label>
+                            <input type="text" name="cpf" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Telefone:</label>
+                            <input type="text" name="telefone" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Endereço:</label>
+                            <input type="text" name="endereco" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Frequência:</label>
+                            <input type="number" name="frequencia" min="2" max="6" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Objetivo:</label>
+                            <input type="text" name="objetivo" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Data de Início:</label>
+                            <input type="date" name="data_matricula" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Status:</label>
+                            <select name="ativo" class="form-control" required>
+                                <option value="1">ATIVO</option>
+                                <option value="0">INATIVO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
+                    <button type="submit" class="btn btn-success submit">SALVAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="app.js"></script>
-
-<script>
-    document.querySelector(".botao-gerar-pdf").addEventListener("click", function () {
-        const { jsPDF } = window.jspdf;
-
-        const elemento = document.getElementById("dados-cadastrados"); // apenas essa parte será capturada
-
-        html2canvas(elemento, { scale: 2 }).then(canvas => {
-            const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF("p", "mm", "a4");
-
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-            pdf.save("dados-cadastrados.pdf");
-        });
-    });
-</script>
 </body>
 </html>

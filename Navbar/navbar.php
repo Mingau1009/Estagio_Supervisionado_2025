@@ -27,6 +27,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="../AGENDA">AGENDA</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../Listagem">LISTAGEM</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../AvaliacaoAntropometria">AVALIAÇÃO ANTROPOMETRIA</a>
+                </li>
             </ul>
         </div>
     </div>
