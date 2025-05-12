@@ -23,17 +23,21 @@ if (strlen($telefone) !== 11) {
 }
 
 // Verificar duplicidade
-$verificar = Db::conexao()->prepare("SELECT COUNT(*) FROM aluno and funcionario WHERE cpf = :cpf");
+$verificar = Db::conexao()->prepare("
+    SELECT COUNT(*) FROM (
+        SELECT cpf FROM aluno WHERE cpf = :cpf
+        UNION
+        SELECT cpf FROM funcionario WHERE cpf = :cpf
+    ) AS resultado
+");
 $verificar->bindValue(":cpf", $cpf, PDO::PARAM_STR);
 $verificar->execute();
 $total = $verificar->fetchColumn();
-
 if ($total > 0) {
     echo "<script>alert('CPF já cadastrado!'); history.back();</script>";
 exit;
 
 }
-
 $sql = ("INSERT INTO `funcionario` 
     (
         `nome`, 

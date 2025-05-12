@@ -25,17 +25,22 @@ if (strlen($telefone) !== 11) {
 }
 
 // Verificar duplicidade
-$verificar = Db::conexao()->prepare("SELECT COUNT(*) FROM aluno WHERE cpf = :cpf AND id != :id");
+$verificar = Db::conexao()->prepare("
+    SELECT COUNT(*) FROM (
+        SELECT cpf FROM aluno WHERE cpf = :cpf
+        UNION
+        SELECT cpf FROM funcionario WHERE cpf = :cpf AND id != :id
+    ) AS resultado
+");
 $verificar->bindValue(":cpf", $cpf, PDO::PARAM_STR);
-$verificar->bindValue(":id", $id, PDO::PARAM_INT);
+$verificar->bindValue(":id", $id, PDO::PARAM_INT); // o id do funcionário que está sendo editado
 $verificar->execute();
 $total = $verificar->fetchColumn();
 
 if ($total > 0) {
-    echo "<script>alert('CPF já cadastrado para outro usuário!'); history.back();</script>";
+    echo "<script>alert('CPF já cadastrado em outro registro.'); history.back();</script>";
     exit;
 }
-
 $sql = ("UPDATE `funcionario`
         SET
             `nome` = :nome, 

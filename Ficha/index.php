@@ -23,12 +23,14 @@
         <?php $exercicios = Db::conexao()->query("SELECT * FROM `exercicio` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
         <?php $fichas = Db::conexao()->query("SELECT `ficha`.*, `aluno`.`nome` AS aluno_nome FROM `ficha` INNER JOIN `aluno` ON `aluno`.`id` = `ficha`.`aluno_id`")->fetchAll(PDO::FETCH_OBJ); ?>
 
+        
         <div class="text-end conteudo-esconder-pdf">
             <button class="btn btn-success botao-cadastrar " data-bs-toggle="modal" data-bs-target="#cadastrar">
                 CADASTRAR
             </button>
         </div>   
         <br>
+        
         <div class="col-12 text-end conteudo-esconder-pdf">
             <div class="d-inline">
                 <button class="btn btn-danger botao-gerar-pdf ">

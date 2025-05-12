@@ -27,11 +27,7 @@
     
     <h3>LISTAGEM</h3>
 
-    <div class="text-end mb-2 conteudo-esconder-pdf">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
-            CADASTRAR <i class="bi bi-people"></i>
-        </button>
-    </div>
+   
     <form method="get" class="mb-2 conteudo-esconder-pdf">
     <div class="row">
         <div class="col-md-4">
@@ -86,60 +82,6 @@
 
 </section>
 
-<!-- CADASTRAR -->
-<form method="POST" id="formulario-cadastrar" action="cadastrar.php">
-    <div class="modal fade" id="cadastrar" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">CADASTRAR</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                    <div class="col-md-4">
-                            <label>Nome Completo:</label>
-                            <input type="text" name="nome" required class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Data de Nascimento:</label>
-                            <input type="date" name="data_nascimento" required class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label>CPF:</label>
-                            <input type="text" name="cpf" required class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Telefone:</label>
-                            <input type="text" name="telefone" required class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Endereço:</label>
-                            <input type="text" name="endereco" required class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Frequência:</label>
-                            <input type="number" name="frequencia" min="2" max="6" required class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Objetivo:</label>
-                            <input type="text" name="objetivo" required class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Data de Início:</label>
-                            <input type="date" name="data_matricula" required class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
-                    <button type="submit" class="btn btn-success submit">CADASTRAR</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-
 <!-- EDITAR -->
 <form method="POST" id="formulario-editar" action="editar.php">
     <input type="hidden" name="id" class="form-control">
@@ -157,7 +99,7 @@
                             <input type="text" name="nome" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Data de Nascimento:</label>
+                            <label>Data Nascimento:</label>
                             <input type="date" name="data_nascimento" required class="form-control">
                         </div>
                         <div class="col-md-4">

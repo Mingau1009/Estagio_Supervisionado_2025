@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12-Abr-2025 às 16:29
--- Versão do servidor: 10.4.27-MariaDB
--- versão do PHP: 7.4.33
+-- Tempo de geração: 12/05/2025 às 16:53
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `aluno`
+-- Estrutura para tabela `aluno`
 --
 
 CREATE TABLE `aluno` (
@@ -40,32 +40,49 @@ CREATE TABLE `aluno` (
   `ativo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
---
--- Extraindo dados da tabela `aluno`
---
-
-INSERT INTO `aluno` (`id`, `nome`, `data_nascimento`, `cpf`, `telefone`, `endereco`, `frequencia`, `objetivo`, `data_matricula`, `ativo`) VALUES
-(16, 'Alexandre Rossi Benassi', '2004-02-03', '44927847055', '44997011869', 'ave', 5, 'aaa', '2025-04-12', 1),
-(20, 'Alexandre Rossi Benassi', '2025-04-12', '58226792002', '44997011869', 'Avenida Guiomar Gas', 5, 'AAAA', '2025-04-12', 0),
-(24, 'Alexandre Rossi Benassi', '2025-04-03', '06592359005', '44997011869', 'Avenida Guiomar Gas', 5, 'AAAA', '2025-04-12', 0);
-
 -- --------------------------------------------------------
 
+--
+-- Estrutura para tabela `aulas`
+--
+
 CREATE TABLE `aulas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `nome_aluno` varchar(255) DEFAULT NULL,
   `categoria_aula` varchar(255) DEFAULT NULL,
   `dia_semana` varchar(20) DEFAULT NULL,
   `horario_inicio` time DEFAULT NULL,
   `professor` varchar(255) DEFAULT NULL,
-  `local_aula` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `local_aula` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `criar_aula`
+--
+
+CREATE TABLE `criar_aula` (
+  `id` int(11) NOT NULL,
+  `nome_aula` varchar(100) NOT NULL,
+  `dia_aula` varchar(100) NOT NULL,
+  `horario_aula` time NOT NULL,
+  `professor_aula` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `criar_aula`
+--
+
+INSERT INTO `criar_aula` (`id`, `nome_aula`, `dia_aula`, `horario_aula`, `professor_aula`) VALUES
+(3, 'Zumba', 'segunda', '17:30:00', 'João Vitor'),
+(4, 'Corrida', 'quarta', '14:20:00', 'João Vitor'),
+(5, 'Treino', 'segunda', '19:30:00', 'João Vitor');
 
 -- --------------------------------------------------------
--- Estrutura da tabela `exercicio`
+
+--
+-- Estrutura para tabela `exercicio`
 --
 
 CREATE TABLE `exercicio` (
@@ -76,7 +93,7 @@ CREATE TABLE `exercicio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `exercicio`
+-- Despejando dados para a tabela `exercicio`
 --
 
 INSERT INTO `exercicio` (`nome`, `tipo_exercicio`, `grupo_muscular`, `id`) VALUES
@@ -92,7 +109,7 @@ INSERT INTO `exercicio` (`nome`, `tipo_exercicio`, `grupo_muscular`, `id`) VALUE
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ficha`
+-- Estrutura para tabela `ficha`
 --
 
 CREATE TABLE `ficha` (
@@ -103,7 +120,7 @@ CREATE TABLE `ficha` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `ficha`
+-- Despejando dados para a tabela `ficha`
 --
 
 INSERT INTO `ficha` (`id`, `aluno_id`, `nome`, `dia_treino`) VALUES
@@ -119,7 +136,7 @@ INSERT INTO `ficha` (`id`, `aluno_id`, `nome`, `dia_treino`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ficha_exercicio`
+-- Estrutura para tabela `ficha_exercicio`
 --
 
 CREATE TABLE `ficha_exercicio` (
@@ -132,7 +149,7 @@ CREATE TABLE `ficha_exercicio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `ficha_exercicio`
+-- Despejando dados para a tabela `ficha_exercicio`
 --
 
 INSERT INTO `ficha_exercicio` (`id`, `ficha_id`, `exercicio_id`, `num_series`, `num_repeticoes`, `tempo_descanso`) VALUES
@@ -156,14 +173,14 @@ INSERT INTO `ficha_exercicio` (`id`, `ficha_id`, `exercicio_id`, `num_series`, `
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `funcionario`
+-- Estrutura para tabela `funcionario`
 --
 
 CREATE TABLE `funcionario` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) DEFAULT NULL,
   `data_nascimento` date DEFAULT NULL,
-  `telefone` varchar(255) DEFAULT NULL,
+  `telefone` varchar(11) DEFAULT NULL,
   `endereco` varchar(255) DEFAULT NULL,
   `turno_disponivel` varchar(255) DEFAULT NULL,
   `data_matricula` date NOT NULL,
@@ -172,57 +189,81 @@ CREATE TABLE `funcionario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Extraindo dados da tabela `funcionario`
+-- Despejando dados para a tabela `funcionario`
 --
 
 INSERT INTO `funcionario` (`id`, `nome`, `data_nascimento`, `telefone`, `endereco`, `turno_disponivel`, `data_matricula`, `ativo`, `cpf`) VALUES
-(27, 'Alexandre Rossi Benassi', '2004-02-03', '44997011869', 'ave', 'Manhã', '2025-04-12', 1, '44927847055');
+(33, 'João Vitor', '2001-03-19', '44997011869', 'Avenida Guiomar Gas', 'Manhã', '2025-05-16', 1, '07687987890');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices para tabela `aluno`
+-- Índices de tabela `aluno`
 --
 ALTER TABLE `aluno`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `cpf_unico` (`cpf`) USING BTREE;
 
 --
--- Índices para tabela `exercicio`
+-- Índices de tabela `aulas`
+--
+ALTER TABLE `aulas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `criar_aula`
+--
+ALTER TABLE `criar_aula`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `exercicio`
 --
 ALTER TABLE `exercicio`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `ficha`
+-- Índices de tabela `ficha`
 --
 ALTER TABLE `ficha`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `ficha_exercicio`
+-- Índices de tabela `ficha_exercicio`
 --
 ALTER TABLE `ficha_exercicio`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `funcionario`
+-- Índices de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `cpf_unico_funcionario` (`cpf`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
 -- AUTO_INCREMENT de tabela `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT de tabela `aulas`
+--
+ALTER TABLE `aulas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `criar_aula`
+--
+ALTER TABLE `criar_aula`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `exercicio`
@@ -246,7 +287,7 @@ ALTER TABLE `ficha_exercicio`
 -- AUTO_INCREMENT de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

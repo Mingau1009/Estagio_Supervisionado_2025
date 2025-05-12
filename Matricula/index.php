@@ -95,13 +95,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row g-3">
                     <div class="col-md-4">
                             <label>Nome Completo:</label>
                             <input type="text" name="nome" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Data de Nascimento:</label>
+                            <label>Data Nascimento:</label>
                             <input type="date" name="data_nascimento" required class="form-control">
                         </div>
                         <div class="col-md-4">

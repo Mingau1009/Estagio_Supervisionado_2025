@@ -56,16 +56,16 @@
 
 <style>
     .short-input {
-        width: 800px !important;  /* Ajusta a largura da barra de busca */
-        max-width: 100%;  /* Garante que não ultrapasse o limite da tela */
+        width: 800px !important;  
+        max-width: 100%;  
     }
 
     .input-group {
-        max-width: 545px;  /* Limita a largura máxima do input-group */
+        max-width: 545px;  
     }
 
     .search-input {
-        max-width: 545px;  /* Garante que o campo de busca ocupe toda a largura disponível */
+        max-width: 545px;  
     }
 </style>
 

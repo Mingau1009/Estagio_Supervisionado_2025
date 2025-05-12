@@ -92,33 +92,38 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col-md-4">
-                            <label>Nome Completo:</label>
+                            <label class="form-label">Nome Completo:</label>
                             <input type="text" name="nome" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Data de Nascimento:</label>
+                            <label class="form-label">Data Nascimento:</label>
                             <input type="date" name="data_nascimento" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>CPF:</label>
+                            <label class="form-label">CPF:</label>
                             <input type="text" name="cpf" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Telefone:</label>
+                            <label class="form-label">Telefone:</label>
                             <input type="text" name="telefone" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Endereço:</label>
+                            <label class="form-label">Endereço:</label>
                             <input type="text" name="endereco" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Turno Disponivel:</label>
-                            <input type="text" name="turno_disponivel" required class="form-control">
+                            <label class="form-label">Turno Disponível:</label>
+                            <select name="turno" class="form-select" required>
+                                <option disabled selected>Selecione</option>    
+                                <option value="Manhã">Manhã</option>
+                                <option value="Tarde">Tarde</option>
+                                <option value="Noite">Noite</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
-                            <label>Data de Início:</label>
+                            <label class="form-label">Data de Início:</label>
                             <input type="date" name="data_matricula" required class="form-control">
                         </div>
                     </div>
@@ -143,13 +148,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col-md-4">
                             <label>Nome Completo:</label>
                             <input type="text" name="nome" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Data de Nascimento:</label>
+                            <label>Data Nascimento:</label>
                             <input type="date" name="data_nascimento" required class="form-control">
                         </div>
                         <div class="col-md-4">
@@ -165,8 +170,12 @@
                             <input type="text" name="endereco" required class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label>Turno Disponivel:</label>
-                            <input type="text" name="turno_disponivel" required class="form-control">
+                            <label>Turno Disponível:</label>
+                            <select name="turno_disponivel" class="form-control" required>
+                                <option value="Manhã">Manhã</option>
+                                <option value="Tarde">Tarde</option>
+                                <option value="Noite">Noite</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label>Data de Início:</label>

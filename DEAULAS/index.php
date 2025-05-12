@@ -16,6 +16,13 @@
 
 <?php include("../Navbar/navbar.php"); ?>
 
+<?php
+// Consulta para obter os professores cadastrados
+$queryProfessores = Db::conexao()->query("SELECT id, nome FROM funcionario ORDER BY nome");
+$professores = $queryProfessores->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+
 <section class="p-3">
     <h3>CADASTRO DE AULA</h3>
 
@@ -82,32 +89,78 @@
                         <th>AJUSTES</th>
                     </tr>
                 </thead>
-                <?php include("../DEAULAS/CadastrosSql.php"); ?>
                 <tbody>
+                <?php
+                    // Consulta diretamente a tabela criar_aula
+                    $queryAulas = Db::conexao()->query("SELECT * FROM criar_aula ORDER BY nome_aula");
+                    $aulas = $queryAulas->fetchAll(PDO::FETCH_ASSOC);
+
+                    if (!empty($aulas)) {
+                        foreach ($aulas as $aula) {
+                            echo "<tr>";
+                            echo "<td>{$aula['nome_aula']}</td>";
+                            
+                            // Formatando o dia da aula para exibição mais amigável
+                            $diaFormatado = ucfirst($aula['dia_aula']); // Primeira letra maiúscula
+                            $diaFormatado = str_replace(
+                                ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                                ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+                                $diaFormatado
+                            );
+                            echo "<td>{$diaFormatado}</td>";
+                            
+                            // Formatando o horário (se necessário)
+                            $horarioFormatado = date('H:i', strtotime($aula['horario_aula']));
+                            echo "<td>{$horarioFormatado}</td>";
+                            
+                            echo "<td>{$aula['professor_aula']}</td>";
+                            echo "<td>
+                                <button 
+                                    class='btn btn-primary btn-sm editar-btn'
+                                    data-id='{$aula['id']}'
+                                    data-nome='{$aula['nome_aula']}'
+                                    data-dia='{$aula['dia_aula']}'
+                                    data-horario='{$horarioFormatado}'
+                                    data-professor='{$aula['professor_aula']}'
+                                    data-bs-toggle='modal' 
+                                    data-bs-target='#editar'>
+                                    Editar
+                                </button>
+                            </td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='5'>Nenhuma aula cadastrada ainda</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>
 
+    </div>
+</section>
 
-<!--CADASTRO -->
+<!-- CADASTRO -->
 <div class="modal fade" id="userForm">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Cadastro de Aula</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
             <form method="POST" id="formulario-cadastrar" action="cadastrar.php">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cadastro de Aula</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
                 <div class="modal-body">
                     <div class="inputField">
                         <div class="mb-3">
-                            <label for="classCategory" class="form-label">Nome da Aula:</label>
-                            <input type="text" id="classCategory" name="nome_aula" class="form-control small-input" required>
+                            <label class="form-label">Nome da Aula:</label>
+                            <input type="text" name="nome_aula" class="form-control" required>
                         </div>
-
                         <div class="mb-3">
-                            <label for="classDay" class="form-label">Dia da Semana:</label>
-                            <select name="dia_aula" id="classDay" class="form-select small-select" required>
-                                <option value="" disabled selected>Selecione o dia da semana</option>
+                            <label class="form-label">Dia da Semana:</label>
+                            <select name="dia_aula" class="form-select" required>
+                                <option disabled selected>Selecione</option>
                                 <option value="segunda">Segunda-feira</option>
                                 <option value="terca">Terça-feira</option>
                                 <option value="quarta">Quarta-feira</option>
@@ -116,74 +169,77 @@
                                 <option value="sabado">Sábado</option>
                             </select>
                         </div>
-
                         <div class="mb-3">
-                            <label for="classTime" class="form-label">Horário da Aula:</label>
-                            <input type="time" id="classTime" name="horario_aula" class="form-control small-input" required>
+                            <label class="form-label">Horário da Aula:</label>
+                            <input type="time" name="horario_aula" class="form-control" required>
                         </div>
-
                         <div class="mb-3">
-                            <label for="teacherName" class="form-label">Professor:</label>
-                            <input type="text" id="teacherName" name="professor_aula" class="form-control small-input" required>
+                            <label class="form-label">Professor:</label>
+                            <select name="professor_aula" class="form-select" required>
+                                <option disabled selected>Selecione o professor</option>
+                                <?php foreach($professores as $professor ): ?>
+                                    <option value="<?= $professor['nome'] ?>"><?= $professor['nome'] ?></option>
+                                <?php endforeach ?>
+                            </select>
                         </div>
-
                     </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-success submit">Salvar</button>
+                    <button type="submit" class="btn btn-success">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 <!-- EDITAR -->
 <form method="POST" id="formulario-editar" action="editar.php">
-    <input type="hidden" name="id" class="form-control">
+    <input type="hidden" name="id" id="editar-id">
     <div class="modal fade" id="editar" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">EDITAR</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    <h4 class="modal-title">Editar Aula</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-
                 <div class="modal-body">
                     <div class="inputField">
-
-                    <div class="mb-3">
-                        <label for="classCategory" class="form-label">Nome da Aula:</label>
-                        <input type="text" id="classCategory" name="nome_aula" class="form-control small-input" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="classDay" class="form-label">Dia da Semana:</label>
-                        <select name="dia_aula" id="classDay" class="form-select small-select" required>
-                            <option value="" disabled selected>Selecione o dia da semana</option>
-                            <option value="segunda">Segunda-feira</option>
-                            <option value="terca">Terça-feira</option>
-                            <option value="quarta">Quarta-feira</option>
-                            <option value="quinta">Quinta-feira</option>
-                            <option value="sexta">Sexta-feira</option>
-                            <option value="sabado">Sábado</option>
-                        </select>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="classTime" class="form-label">Horário da Aula:</label>
-                        <input type="time" id="classTime" name="horario_aula" class="form-control small-input" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="teacherName" class="form-label">Professor:</label>
-                        <input type="text" id="teacherName" name="professor_aula" class="form-control small-input" required>
+                        <div class="mb-3">
+                            <label class="form-label">Nome da Aula:</label>
+                            <input type="text" name="nome_aula" id="editar-nome" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dia da Semana:</label>
+                            <select name="dia_aula" id="editar-dia" class="form-select" required>
+                                <option disabled selected>Selecione</option>
+                                <option value="segunda">Segunda-feira</option>
+                                <option value="terca">Terça-feira</option>
+                                <option value="quarta">Quarta-feira</option>
+                                <option value="quinta">Quinta-feira</option>
+                                <option value="sexta">Sexta-feira</option>
+                                <option value="sabado">Sábado</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Horário da Aula:</label>
+                            <input type="time" name="horario_aula" id="editar-horario" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Professor:</label>
+                            <select name="professor_aula" class="form-select" required>
+                                <option disabled selected>Selecione o professor</option>
+                                <?php foreach($professores as $professor ): ?>
+                                    <option value="<?= $professor['nome'] ?>"><?= $professor['nome'] ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
-                <button type="submit" class="btn btn-success submit">Salvar</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                </div>
             </div>
         </div>
     </div>

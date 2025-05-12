@@ -2,56 +2,69 @@
 
 include("../Classe/Conexao.php");
 
-$id = isset($_POST["id"]) ? $_POST["id"] : NULL;
-$nome = isset($_POST["nome"]) ? $_POST["nome"] : NULL;
-$data_nascimento = isset($_POST["data_nascimento"]) ? $_POST["data_nascimento"] : NULL;
+$id = $_POST["id"] ?? NULL;
+$nome = $_POST["nome"] ?? NULL;
+$data_nascimento = $_POST["data_nascimento"] ?? NULL;
 $cpf = $_POST["cpf"] ?? NULL;
-$telefone = isset($_POST["telefone"]) ? $_POST["telefone"] : NULL;
-$endereco = isset($_POST["endereco"]) ? $_POST["endereco"] : NULL;
-$frequencia = isset($_POST["frequencia"]) ? $_POST["frequencia"] : NULL;
-$objetivo = isset($_POST["objetivo"]) ? $_POST["objetivo"] : NULL;
-$data_matricula = isset($_POST["data_matricula"]) ? $_POST["data_matricula"] : NULL;
-$ativo = isset($_POST["ativo"]) ? $_POST["ativo"] : 1;
+$telefone = $_POST["telefone"] ?? NULL;
+$endereco = $_POST["endereco"] ?? NULL;
+$frequencia = $_POST["frequencia"] ?? NULL;
+$objetivo = $_POST["objetivo"] ?? NULL;
+$data_matricula = $_POST["data_matricula"] ?? NULL;
+$ativo = $_POST["ativo"] ?? 1;
 
-// Validação de cpf 
+// Validação de CPF
 if (strlen($cpf) !== 11) {
     echo "<script>alert('CPF deve conter exatamente 11 dígitos.'); history.back();</script>";
     exit;
 }
 
-// Validação de telefone 
+// Validação de telefone
 if (strlen($telefone) !== 11) {
-    echo "<script>alert('Telefone deve conter exatamente 11 digitos.'); history.back();</script>";
+    echo "<script>alert('Telefone deve conter exatamente 11 dígitos.'); history.back();</script>";
     exit;
 }
 
-// Verificar duplicidade
-$verificar = Db::conexao()->prepare("SELECT COUNT(*) FROM aluno WHERE cpf = :cpf AND id != :id");
-$verificar->bindValue(":cpf", $cpf, PDO::PARAM_STR);
-$verificar->bindValue(":id", $id, PDO::PARAM_INT);
+$alunoAtual = Db::conexao()->prepare("SELECT cpf FROM aluno WHERE id = :id");
+$alunoAtual->bindParam(':id', $id, PDO::PARAM_INT);
+$alunoAtual->execute();
+$cpfAtual = $alunoAtual->fetchColumn();
+
+// Verificar duplicidade de CPF
+$verificar = Db::conexao()->prepare("
+    SELECT COUNT(*) 
+    FROM (
+        SELECT cpf FROM aluno WHERE cpf = :cpf AND id != :id
+        UNION
+        SELECT cpf FROM funcionario WHERE cpf = :cpf
+    ) AS resultado
+");
+$verificar->bindParam(':cpf', $cpf);
+$verificar->bindParam(':id', $id, PDO::PARAM_INT);
 $verificar->execute();
 $total = $verificar->fetchColumn();
 
 if ($total > 0) {
-    echo "<script>alert('CPF já cadastrado para outro usuário!'); history.back();</script>";
+    echo "<script>alert('CPF já cadastrado em outro usuário.'); history.back();</script>";
     exit;
 }
 
-
-$sql = ("UPDATE `aluno` 
-            SET
-                `nome` = :nome, 
-                `data_nascimento` = :data_nascimento, 
-                `cpf` = :cpf,
-                `telefone` = :telefone, 
-                `endereco` = :endereco, 
-                `frequencia` = :frequencia, 
-                `objetivo` = :objetivo, 
-                `data_matricula` = :data_matricula,
-                `ativo` = :ativo
-            WHERE 
-                `id` = :id
-        ");
+// Atualizar dados
+$sql = "
+    UPDATE aluno 
+    SET
+        nome = :nome, 
+        data_nascimento = :data_nascimento, 
+        cpf = :cpf,
+        telefone = :telefone, 
+        endereco = :endereco, 
+        frequencia = :frequencia, 
+        objetivo = :objetivo, 
+        data_matricula = :data_matricula,
+        ativo = :ativo
+    WHERE
+     id = :id
+";
 
 $executar = Db::conexao()->prepare($sql);
 
@@ -69,3 +82,4 @@ $executar->bindValue(":ativo", $ativo, PDO::PARAM_INT);
 $executar->execute();
 
 header("Location: index.php");
+exit;
