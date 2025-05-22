@@ -13,7 +13,7 @@ if ($usuario === 'academia@gmail.com' && $senha === 'mf') {
     $chave = 'chave-secreta';
     $payload = [
         'usuario' => $usuario,
-        'exp' => time() + 3600
+        'exp' => time() + 160
     ];
 
     $token = criarJWT($payload, $chave);
