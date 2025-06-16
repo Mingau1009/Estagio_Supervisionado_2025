@@ -25,7 +25,6 @@
             <div class="field password-field">
                 <div class="fas fa-lock"></div>
                 <input type="password" id="senha" placeholder="Senha" required>
-                <i class="far fa-eye eye-icon" id="togglePassword" style="position: absolute; right: 20px; top: 15px; color: white; cursor: pointer;"></i>
             </div>
 
             <button type="submit">LOGIN</button>
@@ -33,17 +32,20 @@
     </div>
 
     <script>
+        // Alternar visibilidade da senha
         const togglePassword = document.getElementById('togglePassword');
-        const senha = document.getElementById('senha');
+        const senhaInput = document.getElementById('senha');
 
         togglePassword.addEventListener('click', function () {
-            const type = senha.type === 'password' ? 'text' : 'password';
-            senha.type = type;
+            const type = senhaInput.type === 'password' ? 'text' : 'password';
+            senhaInput.type = type;
             this.classList.toggle('fa-eye-slash');
         });
 
+        // Função de login
         async function login(event) {
             event.preventDefault();
+
             const usuario = document.getElementById('usuario').value;
             const senha = document.getElementById('senha').value;
 
@@ -56,16 +58,25 @@
 
                 const data = await response.json();
 
-                if (response.ok) {
+                if (response.ok && data.token) {
                     localStorage.setItem('token', data.token);
                     window.location.href = '../Matricula/index.php';
                 } else {
-                    throw new Error(data.erro || 'Erro desconhecido');
+                    alert(data.erro || 'Erro desconhecido.');
+
+                    // Se o backend mandar resetar os campos
+                    if (data.resetar_campos) {
+                        document.getElementById('usuario').value = '';
+                        document.getElementById('senha').value = '';
+                    } else {
+                        document.getElementById('senha').value = '';
+                    }
+
+                    document.getElementById('usuario').focus();
                 }
+
             } catch (error) {
-                alert(error.message);
-                document.getElementById('senha').value = '';
-                document.getElementById('usuario').focus();
+                alert('Erro de conexão com o servidor.');
             }
         }
     </script>

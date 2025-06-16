@@ -24,10 +24,10 @@
         <?php $fichas = Db::conexao()->query("SELECT `ficha`.*, `aluno`.`nome` AS aluno_nome FROM `ficha` INNER JOIN `aluno` ON `aluno`.`id` = `ficha`.`aluno_id`")->fetchAll(PDO::FETCH_OBJ); ?>
 
         
-        <div class="text-end conteudo-esconder-pdf">
-            <button class="btn btn-success botao-cadastrar " data-bs-toggle="modal" data-bs-target="#cadastrar">
-                CADASTRAR
-            </button>
+    <div class="text-end conteudo-esconder-pdf">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
+            CADASTRAR <i class="bi bi-people"></i>
+        </button>
         </div>   
         <br>
         

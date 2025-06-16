@@ -76,7 +76,10 @@ function formatarTelefone($telefone) {
                 data-ativo="<?php echo $aluno->ativo; ?>">
                 EDITAR
             </button>
-        
+            <button 
+                class="conteudo-esconder-pdf btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-matricula"?>
+             DOWNLOAD APP
+            </button>
         </td>
     </tr>
 <?php } ?>

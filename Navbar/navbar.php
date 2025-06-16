@@ -6,6 +6,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                 <li class="nav-item">
+                    <a class="nav-link" href="../Dashboard">DASHBOARD</a>
+                </li>   
                 <li class="nav-item">
                     <a class="nav-link" href="../Matricula">ALUNOS</a>
                 </li>
@@ -31,7 +34,7 @@
                     <a class="nav-link" href="../Listagem">LISTAGEM</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../AvaliacaoAntropometria">AVALIAÇÃO ANTROPOMETRIA</a>
+                    <a class="nav-link" href="../Dieta">DIETA</a>
                 </li>
             </ul>
         </div>

@@ -27,9 +27,9 @@
     <h3>FUNCIONÁRIOS</h3>
 
     <div class="text-end mb-2 conteudo-esconder-pdf">
-    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
-        CADASTRAR <i class="bi bi-people"></i>
-    </button>
+     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
+            CADASTRAR <i class="bi bi-people"></i>
+        </button>
 </div>
 
 <form method="get" class="mb-2 conteudo-esconder-pdf">
@@ -115,9 +115,9 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Turno Disponível:</label>
-                            <select name="turno" class="form-select" required>
+                            <select name="turno_disponivel" class="form-select" required>
                                 <option disabled selected>Selecione</option>    
-                                <option value="Manhã">Manhã</option>
+                                <option value="Manha">Manhã</option>
                                 <option value="Tarde">Tarde</option>
                                 <option value="Noite">Noite</option>
                             </select>
@@ -172,7 +172,7 @@
                         <div class="col-md-4">
                             <label>Turno Disponível:</label>
                             <select name="turno_disponivel" class="form-control" required>
-                                <option value="Manhã">Manhã</option>
+                                <option value="Manha">Manhã</option>
                                 <option value="Tarde">Tarde</option>
                                 <option value="Noite">Noite</option>
                             </select>
