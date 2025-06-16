@@ -1,31 +1,45 @@
 <?php
-
 include("../Classe/Conexao.php");
 
-$id = isset($_POST["id"]) ? $_POST["id"] : NULL;
-$nome = isset($_POST["nome"]) ? $_POST["nome"] : NULL;
-$dia_treino = isset($_POST["dia_treino"]) ? $_POST["dia_treino"] : NULL;
-$exercicios = isset($_POST["exercicios"]) ? $_POST["exercicios"] : [];
+try {
+    $pdo = Db::conexao();
 
-$conexao = Db::conexao();
-$executarFicha = $conexao->prepare("UPDATE `ficha` SET `nome` = :nome, `dia_treino` = :dia_treino WHERE `id` = :id");
-$executarFicha->bindValue(":id", $id, PDO::PARAM_INT);
-$executarFicha->bindValue(":nome", $nome, PDO::PARAM_STR);
-$executarFicha->bindValue(":dia_treino", $dia_treino, PDO::PARAM_STR); 
-$executarFicha->execute();
+    $id = $_POST['id'] ?? null;
+    $nome = $_POST['nome'] ?? null;
+    $dia_treino = $_POST['dia_treino'] ?? null;
+    $exercicio_id = $_POST['exercicio_id'] ?? null;
+    $num_series = $_POST['num_series'] ?? null;
+    $num_repeticoes = $_POST['num_repeticoes'] ?? null;
+    $tempo_descanso = $_POST['tempo_descanso'] ?? null;
 
-$ficha_id = $id;
+    if (!$id) {
+        http_response_code(400);
+        echo "ID da ficha não informado.";
+        exit;
+    }
 
-$executarExcluirFicha = $conexao->prepare("DELETE FROM `ficha_exercicio` WHERE `ficha_id` = :ficha_id");
-$executarExcluirFicha->bindValue(":ficha_id", $ficha_id, PDO::PARAM_INT);
-$executarExcluirFicha->execute();
+    $sql = "UPDATE ficha SET 
+                nome = :nome,
+                dia_treino = :dia_treino,
+                exercicio_id = :exercicio_id,
+                num_series = :num_series,
+                num_repeticoes = :num_repeticoes,
+                tempo_descanso = :tempo_descanso
+            WHERE id = :id";
 
-foreach ($exercicios as $exercicio) {
-    $executarFichaExercicio = Db::conexao()->prepare("INSERT INTO `ficha_exercicio` (`ficha_id`, `exercicio_id`, `num_series`, `num_repeticoes`, `tempo_descanso`) VALUES (:ficha_id, :exercicio_id, :num_series, :num_repeticoes, :tempo_descanso)");
-    $executarFichaExercicio->bindValue(":ficha_id", $ficha_id, PDO::PARAM_INT);
-    $executarFichaExercicio->bindValue(":exercicio_id", $exercicio["exercicio_id"], PDO::PARAM_INT);
-    $executarFichaExercicio->bindValue(":num_series", $exercicio["num_series"], PDO::PARAM_INT); 
-    $executarFichaExercicio->bindValue(":num_repeticoes", $exercicio["num_repeticoes"], PDO::PARAM_INT); 
-    $executarFichaExercicio->bindValue(":tempo_descanso", $exercicio["tempo_descanso"], PDO::PARAM_INT); 
-    $executarFichaExercicio->execute();
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':id' => $id,
+        ':nome' => $nome,
+        ':dia_treino' => $dia_treino,
+        ':exercicio_id' => $exercicio_id,
+        ':num_series' => $num_series,
+        ':num_repeticoes' => $num_repeticoes,
+        ':tempo_descanso' => $tempo_descanso
+    ]);
+
+    echo "Atualizado com sucesso!";
+} catch (Exception $e) {
+    http_response_code(500);
+    echo "Erro ao editar: " . $e->getMessage();
 }

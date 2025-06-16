@@ -1,20 +1,20 @@
 $(document).ready(function () {
-    $(".editar-btn").on("click", function () {
-        const id = $(this).data("id");
-        const nome = $(this).data("nome");
-        const dia = $(this).data("dia");
-        const horario = $(this).data("horario");
-        const professor = $(this).data("professor");
+    $(".botao-selecionar-aula").on("click", function () {
+        const id           = $(this).data("id");
+        const nomeAluno    = $(this).data("nome_aula");
+        const diaSemana    = $(this).data("dia_aula");
+        const horarioInicio= $(this).data("horario_aula");
+        const professor    = $(this).data("professor_aula");
 
-        // Abre o modal
-        $("#editar").modal("show");
+        // Abre o modal de edição das aulas
+        $("#editarAulaModal").modal("show");
 
         // Preenche os campos do formulário de edição
         $("#formulario-editar input[name='id']").val(id);
-        $("#formulario-editar input[name='nome_aula']").val(nome);
-        $("#formulario-editar select[name='dia_aula']").val(dia);
-        $("#formulario-editar input[name='horario_aula']").val(horario);
-        $("#formulario-editar input[name='professor_aula']").val(professor);
+        $("#formulario-editar input[name='nome_aluno']").val(nomeAluno);
+        $("#formulario-editar select[name='dia_semana']").val(diaSemana);
+        $("#formulario-editar input[name='horario_inicio']").val(horarioInicio);
+        $("#formulario-editar input[name='professor']").val(professor);
     });
 
     $(".botao-gerar-pdf").on("click", function () {

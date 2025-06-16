@@ -78,7 +78,7 @@
                         <th>NOME DO EXERCÍCIO</th>
                         <th>TIPO</th>
                         <th>GRUPO</th>
-                        <th>AJUSTES</th>
+                        <th class="conteudo-esconder-pdf" style="width: 180px;">AJUSTES</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,7 +95,6 @@
                             data-nome="<?php echo $exercicio->nome; ?>"
                             data-tipo_exercicio="<?php echo $exercicio->tipo_exercicio; ?>"
                             data-grupo_muscular="<?php echo $exercicio->grupo_muscular; ?>">
-                            
                             EDITAR
                         </button>
                 </td>
@@ -206,6 +205,74 @@
 </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="app.js"></script>
+<!-- Bibliotecas necessárias -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('.botao-gerar-pdf').addEventListener('click', function () {
+        const elementosEsconder = document.querySelectorAll('.conteudo-esconder-pdf');
+        elementosEsconder.forEach(el => el.style.display = 'none');
+
+        const tabela = document.querySelector('table');
+
+        html2canvas(tabela, {
+            backgroundColor: '#ffffff',
+            scale: 2
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('landscape', 'pt', 'a4');
+
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const margin = 20;
+            const imgProps = pdf.getImageProperties(imgData);
+            const imgWidth = pageWidth - 2 * margin;
+            const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+            pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
+
+            // Gerar data e hora atual formatada
+            const agora = new Date();
+            const dia = String(agora.getDate()).padStart(2, '0');
+            const mes = String(agora.getMonth() + 1).padStart(2, '0');
+            const ano = agora.getFullYear();
+            const hora = String(agora.getHours()).padStart(2, '0');
+            const minuto = String(agora.getMinutes()).padStart(2, '0');
+            const segundo = String(agora.getSeconds()).padStart(2, '0');
+            const dataHoraFormatada = `${dia}/${mes}/${ano} ${hora}:${minuto}:${segundo}`;
+
+            const totalPages = pdf.getNumberOfPages();
+            pdf.setFontSize(10);
+
+            for (let i = 1; i <= totalPages; i++) {
+                pdf.setPage(i);
+
+                // Rodapé esquerdo: data e hora
+                pdf.text(dataHoraFormatada, margin, pageHeight - 10);
+
+                // Rodapé direito: número da página
+                pdf.text(`Página ${i} de ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
+            }
+
+            // Abre o PDF em nova aba
+            const blobUrl = pdf.output('bloburl');
+            window.open(blobUrl, '_blank');
+
+            // Restaurar elementos escondidos
+            elementosEsconder.forEach(el => el.style.display = '');
+        });
+    });
+});
+</script>
+
+
+</script>
 </body>
 </html>
