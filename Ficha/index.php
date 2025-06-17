@@ -17,17 +17,18 @@
 
     <?php include("../Navbar/navbar.php"); ?>
 
-    <div class="container">
+
+
 
         <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
         <?php $exercicios = Db::conexao()->query("SELECT * FROM `exercicio` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
         <?php $fichas = Db::conexao()->query("SELECT `ficha`.*, `aluno`.`nome` AS aluno_nome FROM `ficha` INNER JOIN `aluno` ON `aluno`.`id` = `ficha`.`aluno_id`")->fetchAll(PDO::FETCH_OBJ); ?>
 
         
-    <div class="text-end conteudo-esconder-pdf">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
-            CADASTRAR <i class="bi bi-people"></i>
-        </button>
+        <div class="text-end conteudo-esconder-pdf">
+            <button class="btn btn-success botao-cadastrar " data-bs-toggle="modal" data-bs-target="#cadastrar">
+                CADASTRAR
+            </button>
         </div>   
         <br>
         
@@ -43,18 +44,17 @@
             <thead>
                 <tr>
                     <th>ALUNO</th>
-                    <th>NOME</th>
                     <th>DIA DE TREINO</th>
                     <th>EXERCÍCIOS</th>
                     <th class="conteudo-esconder-pdf">AJUSTES</th>
                 </tr>
             </thead>
             <tbody>
+             
                 <?php foreach ($fichas as $ficha) { ?>
                     <?php $exerciciosFicha = Db::conexao()->query("SELECT `exercicio`.`nome` AS exercicio_nome FROM `ficha_exercicio` INNER JOIN `exercicio` ON `exercicio`.`id` = `ficha_exercicio`.`exercicio_id` WHERE `ficha_exercicio`.`ficha_id` = {$ficha->id} ORDER BY `exercicio`.`nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
                     <tr>
                         <td><?php echo $ficha->aluno_nome; ?></td>
-                        <td><?php echo $ficha->nome; ?></td>
                         <td><?php echo $ficha->dia_treino; ?></td>
                         <td>
                             <ol>
@@ -65,7 +65,7 @@
                         </td>
                         <td class="conteudo-esconder-pdf">
                             <button 
-                                class="conteudo-esconder-pdf btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-ficha"
+                                class="conteudo-esconder-pdf btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-matricula"
                                 data-id="<?php echo $ficha->id; ?>"
                                 data-nome="<?php echo $ficha->nome; ?>"
                                 data-dia_treino="<?php echo $ficha->dia_treino; ?>">
@@ -95,12 +95,6 @@
                                         <?php } ?>
                                     </select>
                                 </div>
-            
-                                <div class="col-md-6">
-                                    <label>NOME DA FICHA</label>
-                                    <input type="text" name="nome" class="form-control" required>
-                                </div>
-            
                                 <div class="col-md-6">
                                     <label>DIA DO TREINO</label>
                                     <select class="form-control" name="dia_treino" required>
@@ -180,11 +174,6 @@
                         </div>
                         <div class="modal-body">
                             <div class="row">            
-                                <div class="col-md-6">
-                                    <label>NOME DA FICHA</label>
-                                    <input type="text" name="nome" class="form-control" required>
-                                </div>
-            
                                 <div class="col-md-6">
                                     <label>DIA DO TREINO</label>
                                     <select class="form-control" name="dia_treino" required>

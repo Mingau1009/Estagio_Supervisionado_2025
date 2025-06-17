@@ -4,41 +4,40 @@ include("../Classe/Conexao.php");
 try {
     $pdo = Db::conexao();
 
+    // Coleta os dados do formulário
     $id = $_POST['id'] ?? null;
-    $nome = $_POST['nome'] ?? null;
-    $dia_treino = $_POST['dia_treino'] ?? null;
-    $exercicio_id = $_POST['exercicio_id'] ?? null;
-    $num_series = $_POST['num_series'] ?? null;
-    $num_repeticoes = $_POST['num_repeticoes'] ?? null;
-    $tempo_descanso = $_POST['tempo_descanso'] ?? null;
+    $nome_aluno = $_POST['nome_aluno'] ?? null;
+    $dia_refeicao = $_POST['dia_refeicao'] ?? null;
+    $tipo_refeicao = $_POST['tipo_refeicao'] ?? null;
+    $horario_refeicao = $_POST['horario_refeicao'] ?? null;
+    $descricao = $_POST['descricao'] ?? null;
 
+    // Verifica se o ID foi enviado
     if (!$id) {
         http_response_code(400);
-        echo "ID da ficha não informado.";
+        echo "ID da dieta não informado.";
         exit;
     }
 
-    $sql = "UPDATE ficha SET 
-                nome = :nome,
-                dia_treino = :dia_treino,
-                exercicio_id = :exercicio_id,
-                num_series = :num_series,
-                num_repeticoes = :num_repeticoes,
-                tempo_descanso = :tempo_descanso
+    // Prepara e executa o UPDATE
+    $sql = "UPDATE dieta SET 
+                nome_aluno = :nome_aluno,
+                dia_refeicao = :dia_refeicao,
+                tipo_refeicao = :tipo_refeicao,
+                horario_refeicao = :horario_refeicao,
+                descricao = :descricao
             WHERE id = :id";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':id' => $id,
-        ':nome' => $nome,
-        ':dia_treino' => $dia_treino,
-        ':exercicio_id' => $exercicio_id,
-        ':num_series' => $num_series,
-        ':num_repeticoes' => $num_repeticoes,
-        ':tempo_descanso' => $tempo_descanso
+        ':nome_aluno' => $nome_aluno,
+        ':dia_refeicao' => $dia_refeicao,
+        ':tipo_refeicao' => $tipo_refeicao,
+        ':horario_refeicao' => $horario_refeicao,
+        ':descricao' => $descricao
     ]);
 
-    echo "Atualizado com sucesso!";
 } catch (Exception $e) {
     http_response_code(500);
     echo "Erro ao editar: " . $e->getMessage();

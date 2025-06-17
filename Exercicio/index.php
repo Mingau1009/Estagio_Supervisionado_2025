@@ -97,10 +97,10 @@
                             data-grupo_muscular="<?php echo $exercicio->grupo_muscular; ?>">
                             EDITAR
                         </button>
-                </td>
+                        </td>
                     </tr>
                 <?php } ?>
-            </tbody>
+                </tbody>
             </table>
         </div>
     </div>
@@ -124,15 +124,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="exerciseType" class="form-label">Escolha o tipo de treino:</label>
-                            <select  name="exercicio" id="exerciseType" class="form-select small-select" required>
+                            <select name="tipo_exercicio" id="exerciseType" class="form-select small-select" required>
                                 <option value="" disabled selected>Selecione o tipo de treino</option>
-                                <option value="musculacao">Musculação</option>
-                                <option value="cardio">Cardio</option>
+                                <option value="MUSCULAÇÃO">MUSCULAÇÃO</option>
+                                <option value="CARDIO">CARDIO</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="exerciseGroup"  class="form-label">Grupo:</label>
-                            <select name="grupo" id="exerciseGroup" class="form-select small-select" required>
+                            <select name="grupo_muscular" id="exerciseGroup" class="form-select small-select" required>
                                 <option value="" disabled selected>Selecione o tipo de treino</option>
                                 <option value="ABDÔMEN">ABDÔMEN</option>
                                 <option value="CARDIO">CARDIO</option>
@@ -173,15 +173,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="exerciseType" class="form-label">Escolha o tipo de treino:</label>
-                            <select  name="exercicio" id="exerciseType" class="form-select small-select" required>
+                            <select name="tipo_exercicio" id="exerciseType" class="form-select small-select" required>
                                 <option value="" disabled selected>Selecione o tipo de treino</option>
-                                <option value="musculacao">Musculação</option>
-                                <option value="cardio">Cardio</option>
+                                <option value="MUSCULAÇÃO">MUSCULAÇÃO</option>
+                                <option value="CARDIO">CARDIO</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="exerciseGroup"  class="form-label">Grupo:</label>
-                            <select name="grupo" id="exerciseGroup" class="form-select small-select" required>
+                            <select name="grupo_muscular" id="exerciseGroup" class="form-select small-select" required>
                                 <option value="" disabled selected>Selecione o tipo de treino</option>
                                 <option value="ABDÔMEN">ABDÔMEN</option>
                                 <option value="CARDIO">CARDIO</option>

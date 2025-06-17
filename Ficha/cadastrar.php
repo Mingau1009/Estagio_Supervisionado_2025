@@ -3,14 +3,12 @@
 include("../Classe/Conexao.php");
 
 $aluno_id = isset($_POST["aluno_id"]) ? $_POST["aluno_id"] : NULL;
-$nome = isset($_POST["nome"]) ? $_POST["nome"] : NULL;
 $dia_treino = isset($_POST["dia_treino"]) ? $_POST["dia_treino"] : NULL;
 $exercicios = isset($_POST["exercicios"]) ? $_POST["exercicios"] : [];
 
 $conexao = Db::conexao();
-$executarFicha = $conexao->prepare("INSERT INTO `ficha` (`aluno_id`, `nome`, `dia_treino`) VALUES (:aluno_id, :nome, :dia_treino)");
+$executarFicha = $conexao->prepare("INSERT INTO `ficha` (`aluno_id`, `dia_treino`) VALUES (:aluno_id, :dia_treino)");
 $executarFicha->bindValue(":aluno_id", $aluno_id, PDO::PARAM_INT);
-$executarFicha->bindValue(":nome", $nome, PDO::PARAM_STR);
 $executarFicha->bindValue(":dia_treino", $dia_treino, PDO::PARAM_STR); 
 $executarFicha->execute();
 

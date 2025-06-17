@@ -4,8 +4,8 @@ include("../Classe/Conexao.php");
 
 $id = isset($_POST["id"]) ? $_POST["id"] : NULL;
 $nome = isset($_POST["nome"]) ? $_POST["nome"] : NULL;
-$tipo_exercicio = isset($_POST["exercicio"]) ? $_POST["exercicio"] : NULL;
-$grupo_muscular = isset($_POST["grupo"]) ? $_POST["grupo"] : NULL;
+$tipo_exercicio = isset($_POST["tipo_exercicio"]) ? $_POST["tipo_exercicio"] : NULL;
+$grupo_muscular = isset($_POST["grupo_muscular"]) ? $_POST["grupo_muscular"] : NULL;
 
 
 $sql = ("UPDATE `exercicio` 

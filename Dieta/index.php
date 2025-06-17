@@ -47,19 +47,37 @@
             <tbody>
                 <?php foreach ($dietas as $dieta) { ?>
                     <tr>
-                        <td><?php echo $dieta->nome_aluno; ?></td>
+                        <td>
+                            <?php
+                                $nomeAluno = '';
+                                foreach ($alunos as $aluno) {
+                                    if ($aluno->id == $dieta->nome_aluno) {
+                                        $nomeAluno = $aluno->nome;
+                                        break;
+                                    }
+                                }
+                                echo $nomeAluno;
+                            ?>
+                        </td>
                         <td><?php echo $dieta->dia_refeicao; ?></td>
                         <td><?php echo $dieta->tipo_refeicao; ?></td>
                         <td><?php echo $dieta->horario_refeicao; ?></td>
                         <td class="conteudo-esconder-pdf">
                             <button 
                                 class="btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-dieta"
+                                data-id="<?php echo $dieta->id; ?>"
                                 data-nome_aluno="<?php echo $dieta->nome_aluno; ?>"
                                 data-dia_refeicao="<?php echo $dieta->dia_refeicao; ?>"
                                 data-tipo_refeicao="<?php echo $dieta->tipo_refeicao; ?>"
                                 data-horario_refeicao="<?php echo $dieta->horario_refeicao; ?>"
                                 data-descricao="<?php echo $dieta->descricao; ?>">
                                 EDITAR
+                            </button>
+                            <button 
+                                class="btn btn-secondary btn-sm p-0 ps-2 pe-2 botao-visualizar-descricao"
+                                data-descricao="<?php echo htmlspecialchars($dieta->descricao); ?>"
+                            >
+                                VISUALIZAR
                             </button>
                         </td>
                     </tr>
@@ -95,6 +113,7 @@
                                         <option value="QUINTA">Quinta</option>
                                         <option value="SEXTA">Sexta</option>
                                         <option value="SABADO">Sábado</option>
+                                        <option value="TODOS OS DIAS">Todos os Dias</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -106,7 +125,6 @@
                                         <option value="Almoço">Almoço</option>
                                         <option value="Lanche da Tarde">Lanche da Tarde</option>
                                         <option value="Jantar">Jantar</option>
-                                        <option value="Colação">Colação</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -129,12 +147,12 @@
         </form>
 
         <form method="POST" id="formulario-editar-dieta">
-            <input type="hidden" name="id">
+        <input type="hidden" name="id"> 
             <div class="modal fade" id="editar" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">FICHA DE TREINO</h4>
+                            <h4 class="modal-title">EDITAR PLANO ALIMENTAR</h4>
                         </div>
                         <div class="modal-body">
                             <div class="row">
@@ -157,6 +175,7 @@
                                         <option value="QUINTA">Quinta</option>
                                         <option value="SEXTA">Sexta</option>
                                         <option value="SABADO">Sábado</option>
+                                        <option value="TODOS OS DIAS">Todos os Dias</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -168,7 +187,6 @@
                                         <option value="Almoço">Almoço</option>
                                         <option value="Lanche da Tarde">Lanche da Tarde</option>
                                         <option value="Jantar">Jantar</option>
-                                        <option value="Colação">Colação</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -189,6 +207,24 @@
                 </div>
             </div>
         </form>
+
+        <div class="modal fade" id="visualizarDescricaoModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Descrição da Refeição</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="descricao-visualizar" class="text-wrap"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
