@@ -24,8 +24,5 @@ $(document).ready(function () {
         $("#formulario-editar input[name='data_matricula']").val(data_matricula);
         $("#formulario-editar select[name='ativo']").val(ativo);
     });
+  });
 
-    $(".botao-gerar-pdf").on("click", function(){
-        window.print();
-    });
-});

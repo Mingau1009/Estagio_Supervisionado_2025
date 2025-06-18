@@ -2,26 +2,25 @@
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://kit.fontawesome.com/af6fbadd15.js" crossorigin="anonymous"></script>
     <title>Área de cadastro de exercício</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../Sidebar/style.css">
 </head>
 <body>
 
 <?php include("../Classe/Conexao.php") ?>
 
-<?php include("../Navbar/navbar.php"); ?>
+<?php include("../Sidebar/index.php"); ?>
 
-<section class="p-3">
-    <h3>EXERCÍCIOS</h3>
-
+<section class="p-3" style="margin-left:85px;">
     <div class="text-end mb-2 conteudo-esconder-pdf">
         <button class="btn btn-success newUser " data-bs-toggle="modal" data-bs-target="#userForm">
-            CADASTRAR EXERCÍCIO <i class="bi bi-people"></i>
+            CADASTRAR <i class="bi bi-people"></i>
         </button>
     </div>
 
@@ -42,15 +41,6 @@
                 <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
             </button>
         </div>
-        <div class="d-inline">
-            <div class="dropdown d-inline">
-                <button class="btn btn-warning dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">ORDENAR</button>
-                <ul class="dropdown-menu filtro-opcoes" aria-labelledby="filterDropdown">
-                    <li><a class="dropdown-item" href="?ordenar=DESC">EXERCÍCIOS ATIVOS</a></li>
-                    <li><a class="dropdown-item" href="?ordenar=ASC">EXERCÍCIOS INATIVOS</a></li>
-                </ul>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -67,17 +57,23 @@
     .search-input {
         max-width: 545px;  
     }
+
+    .table {
+        margin-left: 100px;  
+        margin-right: 220px; 
+        width: 93%;        
+    }
 </style>
 
-<section>
-    <div class="row">
+<section class="p-3">
+    <div class="row justify-content-center"> <!-- Centraliza a tabela -->
         <div class="col-12">
             <table class="table table-striped table-hover mt-3 text-center table-bordered">
                 <thead>
                     <tr>
-                        <th>NOME DO EXERCÍCIO</th>
-                        <th>TIPO</th>
-                        <th>GRUPO</th>
+                        <th style="width: 480px;">NOME DO EXERCÍCIO</th> 
+                        <th style="width: 350px;">TIPO</th> 
+                        <th style="width: 350px;">GRUPO</th> 
                         <th class="conteudo-esconder-pdf" style="width: 180px;">AJUSTES</th>
                     </tr>
                 </thead>
@@ -106,7 +102,6 @@
     </div>
 </section>
 
-
 <div class="modal fade" id="userForm">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -131,7 +126,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="exerciseGroup"  class="form-label">Grupo:</label>
+                            <label for="exerciseGroup" class="form-label">Grupo:</label>
                             <select name="grupo_muscular" id="exerciseGroup" class="form-select small-select" required>
                                 <option value="" disabled selected>Selecione o tipo de treino</option>
                                 <option value="ABDÔMEN">ABDÔMEN</option>
@@ -147,11 +142,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
-                <button type="submit" class="btn btn-success submit">SALVAR</button>
-            </div>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
+                    <button type="submit" class="btn btn-success submit">SALVAR</button>
+                </div>
             </form>
-            
         </div>
     </div>
 </div>
@@ -175,12 +169,12 @@
                             <label for="exerciseType" class="form-label">Escolha o tipo de treino:</label>
                             <select name="tipo_exercicio" id="exerciseType" class="form-select small-select" required>
                                 <option value="" disabled selected>Selecione o tipo de treino</option>
-                                <option value="MUSCULAÇÃO">MUSCULAÇÃO</option>
+                                 <option value="MUSCULAÇÃO">MUSCULAÇÃO</option>
                                 <option value="CARDIO">CARDIO</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="exerciseGroup"  class="form-label">Grupo:</label>
+                            <label for="exerciseGroup" class="form-label">Grupo:</label>
                             <select name="grupo_muscular" id="exerciseGroup" class="form-select small-select" required>
                                 <option value="" disabled selected>Selecione o tipo de treino</option>
                                 <option value="ABDÔMEN">ABDÔMEN</option>
@@ -196,25 +190,25 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
-                <button type="submit" class="btn btn-success submit">SALVAR</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
+                    <button type="submit" class="btn btn-success submit">SALVAR</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="app.js"></script>
-<!-- Bibliotecas necessárias -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
+<script src="app.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.botao-gerar-pdf').addEventListener('click', function () {
+        const botao = this;
+        botao.disabled = true;
+
         const elementosEsconder = document.querySelectorAll('.conteudo-esconder-pdf');
         elementosEsconder.forEach(el => el.style.display = 'none');
 
@@ -225,20 +219,17 @@ document.addEventListener('DOMContentLoaded', function () {
             scale: 2
         }).then(canvas => {
             const imgData = canvas.toDataURL('image/png');
-
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('landscape', 'pt', 'a4');
 
             const pageWidth = pdf.internal.pageSize.getWidth();
             const pageHeight = pdf.internal.pageSize.getHeight();
             const margin = 20;
-            const imgProps = pdf.getImageProperties(imgData);
             const imgWidth = pageWidth - 2 * margin;
-            const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
 
             pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
 
-            // Gerar data e hora atual formatada
             const agora = new Date();
             const dia = String(agora.getDate()).padStart(2, '0');
             const mes = String(agora.getMonth() + 1).padStart(2, '0');
@@ -250,29 +241,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const totalPages = pdf.getNumberOfPages();
             pdf.setFontSize(10);
-
             for (let i = 1; i <= totalPages; i++) {
                 pdf.setPage(i);
-
-                // Rodapé esquerdo: data e hora
                 pdf.text(dataHoraFormatada, margin, pageHeight - 10);
-
-                // Rodapé direito: número da página
                 pdf.text(`Página ${i} de ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
             }
 
-            // Abre o PDF em nova aba
-            const blobUrl = pdf.output('bloburl');
-            window.open(blobUrl, '_blank');
+            pdf.save(`relatorio-exercicios-${dia}-${mes}-${ano}.pdf`);
 
-            // Restaurar elementos escondidos
             elementosEsconder.forEach(el => el.style.display = '');
+            botao.disabled = false;
         });
     });
 });
 </script>
 
-
-</script>
 </body>
 </html>

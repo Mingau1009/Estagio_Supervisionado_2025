@@ -6,19 +6,22 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../Sidebar/style.css">
 
     <title>ÁREA DE CADASTRO DE FICHA</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <?php include("../Classe/Conexao.php") ?>
-    <?php include("../Navbar/navbar.php"); ?>
+<?php include("../Classe/Conexao.php") ?>
+
+<?php include("../Sidebar/index.php"); ?>
 
     <div class="container">
         <?php $dietas = Db::conexao()->query("SELECT * FROM dieta ORDER BY nome_aluno ASC")->fetchAll(PDO::FETCH_OBJ); ?>
         <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
        
-
+<section class="p-3" style="margin-left:85px;"></section>
 
         <div class="text-end conteudo-esconder-pdf">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../Sidebar/style.css">
     <link rel="stylesheet" href="style.css">
 
     <title>FUNCIONÁRIOS</title>
@@ -17,14 +19,12 @@
 
 <?php include("../Classe/Conexao.php") ?>
 
-<?php include("../Navbar/navbar.php"); ?>
+<?php include("../Sidebar/index.php"); ?>
 
 <?php $pesquisa = isset($_GET["pesquisa"]) ? $_GET["pesquisa"] : NULL; ?>
 <?php $ordenar = isset($_GET["ordenar"]) ? $_GET["ordenar"] : "ASC"; ?>
 
-<section class="p-3">
-    
-    <h3>FUNCIONÁRIOS</h3>
+<section class="p-3" style="margin-left:85px;">
 
     <div class="text-end mb-2 conteudo-esconder-pdf">
      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
@@ -43,7 +43,6 @@
         </div>
     </div>
 </form>
-
 
 <div class="col-12 text-end conteudo-esconder-pdf">
     <div class="d-inline">
@@ -202,6 +201,63 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('.botao-gerar-pdf').addEventListener('click', function () {
+        // Esconder elementos indesejados no PDF
+        const elementosEsconder = document.querySelectorAll('.conteudo-esconder-pdf');
+        elementosEsconder.forEach(el => el.style.display = 'none');
+
+        // Selecionar a tabela
+        const tabela = document.querySelector('table');
+
+        html2canvas(tabela, {
+            backgroundColor: '#ffffff',
+            scale: 2
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('landscape', 'pt', 'a4');
+
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const margin = 20;
+            const imgWidth = pageWidth - 2 * margin;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+
+            pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
+
+            // Obter data e hora no formato dd/mm/aaaa hh:mm:ss
+            const agora = new Date();
+            const dia = String(agora.getDate()).padStart(2, '0');
+            const mes = String(agora.getMonth() + 1).padStart(2, '0');
+            const ano = agora.getFullYear();
+            const hora = String(agora.getHours()).padStart(2, '0');
+            const minuto = String(agora.getMinutes()).padStart(2, '0');
+            const segundo = String(agora.getSeconds()).padStart(2, '0');
+            const dataHoraFormatada = `${dia}/${mes}/${ano} ${hora}:${minuto}:${segundo}`;
+
+            // Rodapé: data/hora à esquerda, número da página à direita
+            const totalPages = pdf.getNumberOfPages();
+            pdf.setFontSize(10);
+            for (let i = 1; i <= totalPages; i++) {
+                pdf.setPage(i);
+                pdf.text(dataHoraFormatada, margin, pageHeight - 10); // canto inferior esquerdo
+                pdf.text(`Página ${i} de ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: 'right' }); // canto inferior direito
+            }
+
+            // Salvar PDF
+            pdf.save(`relatorio-alunos-${dia}-${mes}-${ano}.pdf`);
+
+            // Mostrar os elementos novamente
+            elementosEsconder.forEach(el => el.style.display = '');
+        });
+    });
+});
+</script>
 <script src="app.js"></script>
+
 </body>
 </html>

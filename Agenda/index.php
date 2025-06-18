@@ -4,25 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
-
     <link href="css/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../Sidebar/style.css">
     <title>Agendamento</title>
 </head>
 <body>
 
 <?php include("../Classe/Conexao.php") ?>
 
-<?php include("../Navbar/navbar.php"); ?>
+<?php include("../Sidebar/index.php"); ?>
 
     <div class="container">
 
         <div class="card mb-4 border-light shadow">
             <div class="card-body">
                 <h2 class="mt-0 me-3 ms-2 pb-2 border-bottom">Agenda</h2>
+
+<section class="p-3" style="margin-left:85px;"></section>
 
                 <span id="msg"></span>
 
@@ -306,40 +307,60 @@
     <script src='js/apagar_evento.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    <script>
-    function gerarPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+<script>
+function gerarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-        const data = {
-            "ID": document.getElementById("visualizar_id").innerText,
-            "Título": document.getElementById("visualizar_title").innerText,
-            "Observação": document.getElementById("visualizar_obs").innerText,
-            "Início": document.getElementById("visualizar_start").innerText,
-            "Fim": document.getElementById("visualizar_end").innerText,
-            "Nome do Profissional": document.getElementById("visualizar_name").innerText,
-            "Telefone do Profissional": document.getElementById("visualizar_phone").innerText,
-            "Nome do Cliente": document.getElementById("visualizar_client_name").innerText,
-            "Telefone do Cliente": document.getElementById("visualizar_client_phone").innerText
-        };
+    const data = {
+        "ID": document.getElementById("visualizar_id").innerText,
+        "Título": document.getElementById("visualizar_title").innerText,
+        "Observação": document.getElementById("visualizar_obs").innerText,
+        "Início": document.getElementById("visualizar_start").innerText,
+        "Fim": document.getElementById("visualizar_end").innerText,
+        "Nome do Profissional": document.getElementById("visualizar_name").innerText,
+        "Telefone do Profissional": document.getElementById("visualizar_phone").innerText,
+        "Nome do Cliente": document.getElementById("visualizar_client_name").innerText,
+        "Telefone do Cliente": document.getElementById("visualizar_client_phone").innerText
+    };
 
-        let y = 10; 
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Detalhes do Evento", 10, y);
-        y += 10;
+    let y = 10; 
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("Detalhes do Evento", 10, y);
+    y += 10;
 
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
 
-        for (let key in data) {
-            doc.text(`${key}: ${data[key]}`, 10, y);
-            y += 8; 
-        }
-
-        doc.save("evento.pdf");
+    for (let key in data) {
+        doc.text(`${key}: ${data[key]}`, 10, y);
+        y += 8; 
     }
+
+    // Add footer with date and page number
+    const date = new Date();
+    const formattedDate = date.toLocaleString('pt-BR', { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    });
+
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(10);
+        doc.text(formattedDate, 10, doc.internal.pageSize.height - 10);
+        doc.text(`Página ${i} de ${pageCount}`, doc.internal.pageSize.width - 40, doc.internal.pageSize.height - 10);
+    }
+
+    doc.save("evento.pdf");
+}
 </script>
+
 
 
 </body>

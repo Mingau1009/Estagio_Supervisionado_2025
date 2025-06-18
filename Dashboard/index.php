@@ -1,6 +1,6 @@
-<?php include("../Navbar/navbar.php"); ?>
-
 <?php include("../Classe/Conexao.php") ?>
+
+<?php include("../Sidebar/index.php"); ?>
 
 <?php
 
@@ -43,6 +43,9 @@ $dataPie = [$alunosAtivos->TOTAL, $alunosInativos->TOTAL]; // Exemplo de porcent
   <title>Gráficos</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="../Sidebar/style.css">
+
   <style>
     body {
       background: #f4f6f9;
@@ -54,7 +57,7 @@ $dataPie = [$alunosAtivos->TOTAL, $alunosInativos->TOTAL]; // Exemplo de porcent
       margin-bottom: 20px;
     }
     .card-body {
-      height: 250px;
+      height: 300px; /* Aumentando a altura do card */
     }
     .btn-tool {
       background: transparent;
@@ -67,14 +70,21 @@ $dataPie = [$alunosAtivos->TOTAL, $alunosInativos->TOTAL]; // Exemplo de porcent
     .btn-tool:hover {
       color: #343a40;
     }
+    canvas {
+      max-width: 100%; /* Garantindo que o gráfico não ultrapasse a largura do card */
+      max-height: 300px; /* Ajustando a altura máxima do gráfico */
+    }
+    .offset-custom {
+      margin-left: 140px; /* Adicionando 20px de margem à esquerda */
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="row">
-    <!-- Gráfico de Matrículas -->
-    <div class="col-md-6">
+  <div class="row justify-content-center"> <!-- Centralizando os gráficos -->
+    <div class="col-md-6 offset-custom"> <!-- Coluna para os gráficos com margem à esquerda -->
+      <!-- Gráfico de Matrículas -->
       <div class="card card-primary card-outline">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h3 class="card-title mb-0">
@@ -90,10 +100,8 @@ $dataPie = [$alunosAtivos->TOTAL, $alunosInativos->TOTAL]; // Exemplo de porcent
           <canvas id="bar-chart"></canvas>
         </div>
       </div>
-    </div>
 
-    <!-- Gráfico de Pizza -->
-    <div class="col-md-6">
+      <!-- Gráfico de Pizza -->
       <div class="card card-primary card-outline">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h3 class="card-title mb-0">
@@ -111,7 +119,6 @@ $dataPie = [$alunosAtivos->TOTAL, $alunosInativos->TOTAL]; // Exemplo de porcent
       </div>
     </div>
   </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -137,8 +144,8 @@ const barChart = new Chart(ctxBar, {
             borderColor: 'rgb(0, 0, 0)',
             borderWidth: 1,
             data: dataBar,
-            barThickness: 85,
-            maxBarThickness: 18
+            barThickness: 70, // Diminuindo a espessura das barras
+            maxBarThickness: 15 // Diminuindo a espessura máxima das barras
         }]
     },
     options: {
@@ -162,7 +169,6 @@ const barChart = new Chart(ctxBar, {
         }
     }
 });
-
 
 // Configuração do botão de colapsar para o gráfico de pizza
 const btnCollapsePie = document.getElementById('btn-collapse-pie');

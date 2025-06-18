@@ -44,7 +44,6 @@ $(document).ready(function() {
             type: 'POST',
             data: $(this).serialize(), // aqui o id será incluído automaticamente
             success: function (resposta) {
-                alert("Editado com sucesso!");
                 location.reload();
             },
             error: function (xhr) {
