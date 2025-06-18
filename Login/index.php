@@ -60,7 +60,7 @@
 
                 if (response.ok && data.token) {
                     localStorage.setItem('token', data.token);
-                    window.location.href = '../Matricula/index.php';
+                    window.location.href = '../Dashboard/index.php';
                 } else {
                     alert(data.erro || 'Erro desconhecido.');
 

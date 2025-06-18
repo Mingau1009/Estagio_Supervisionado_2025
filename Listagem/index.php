@@ -9,23 +9,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../Sidebar/style.css">
+    <!-- ADICIONE ESTA LINHA PARA CORRIGIR O PROBLEMA DA SIDEBAR -->
+    <link rel="stylesheet" href="sidebar-fix.css">
 
     <title>ALUNOS</title>
     
 </head>
 <body>
 
+<?php include("../Sidebar/index.php"); ?>
 <?php include("../Classe/Conexao.php") ?>
 
-<?php include("../Navbar/navbar.php"); ?>
-
+<section class="p-3">
 
 <?php $pesquisa = isset($_GET["pesquisa"]) ? $_GET["pesquisa"] : NULL; ?>
 <?php $ordenar = isset($_GET["ordenar"]) ? $_GET["ordenar"] : "ASC"; ?>
-
-<section class="p-3">
-    
-    <h3>LISTAGEM</h3>
 
    
     <form method="get" class="mb-2 conteudo-esconder-pdf">
@@ -36,9 +36,6 @@
                 <input name="pesquisa" value="<?php echo $pesquisa; ?>" type="text" class="form-control" placeholder="Buscar por nome...">
                 <span class="input-group-text"><i class="fas fa-search"></i></span>
             </div>
-        </div>
-    </div>
-</form>
         </div>
     </div>
 </form>
@@ -150,3 +147,4 @@
 <script src="app.js"></script>
 </body>
 </html>
+

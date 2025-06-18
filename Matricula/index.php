@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../Sidebar/style.css">
+
     <title>ALUNOS</title>
     
 </head>
@@ -17,15 +20,14 @@
 
 <?php include("../Classe/Conexao.php") ?>
 
-<?php include("../Navbar/navbar.php"); ?>
+<?php include("../Sidebar/index.php"); ?>
+
 
 
 <?php $pesquisa = isset($_GET["pesquisa"]) ? $_GET["pesquisa"] : NULL; ?>
 <?php $ordenar = isset($_GET["ordenar"]) ? $_GET["ordenar"] : "ASC"; ?>
 
-<section class="p-3">
-    
-    <h3>ALUNOS</h3>
+<section class="p-3" style="margin-left:85px;">
 
     <div class="text-end mb-2 conteudo-esconder-pdf">
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
@@ -33,19 +35,16 @@
         </button>
     </div>
     <form method="get" class="mb-2 conteudo-esconder-pdf">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="input-group">
-                <input type="hidden" name="ordenar" value="<?php echo $ordenar; ?>">
-                <input name="pesquisa" value="<?php echo $pesquisa; ?>" type="text" class="form-control" placeholder="Buscar por nome...">
-                <span class="input-group-text"><i class="fas fa-search"></i></span>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="hidden" name="ordenar" value="<?php echo $ordenar; ?>">
+                    <input name="pesquisa" value="<?php echo $pesquisa; ?>" type="text" class="form-control" placeholder="Buscar por nome...">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
             </div>
         </div>
-    </div>
-</form>
-        </div>
-    </div>
-</form>
+    </form>
 
     <div class="col-12 text-end conteudo-esconder-pdf">
         <div class="d-inline">
@@ -96,7 +95,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
-                    <div class="col-md-4">
+                        <div class="col-md-4">
                             <label>Nome Completo:</label>
                             <input type="text" name="nome" required class="form-control">
                         </div>
@@ -143,49 +142,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="app.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.botao-gerar-pdf').addEventListener('click', function () {
-        // Esconder elementos indesejados no PDF
-        const elementosEsconder = document.querySelectorAll('.conteudo-esconder-pdf');
-        elementosEsconder.forEach(el => el.style.display = 'none');
+        const botao = this;
+        botao.disabled = true;
 
-        // Selecionar a tabela
-        const tabela = document.querySelector('table');
-
-        html2canvas(tabela, {
-            backgroundColor: '#ffffff',
-            scale: 2
-        }).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('landscape', 'pt', 'a4');
-
-            const pageWidth = pdf.internal.pageSize.getWidth();
-            const imgWidth = pageWidth - 40;
-            const imgHeight = canvas.height * imgWidth / canvas.width;
-
-            pdf.addImage(imgData, 'PNG', 20, 20, imgWidth, imgHeight);
-
-            // Abrir o PDF em nova aba e salvar
-            const blob = pdf.output('blob');
-            const blobUrl = URL.createObjectURL(blob);
-            window.open(blobUrl, '_blank');
-            pdf.save('funcionarios.pdf');
-
-            // Mostrar os elementos novamente
-            elementosEsconder.forEach(el => el.style.display = '');
-        });
-    });
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelector('.botao-gerar-pdf').addEventListener('click', function () {
         const elementosEsconder = document.querySelectorAll('.conteudo-esconder-pdf');
         elementosEsconder.forEach(el => el.style.display = 'none');
 
@@ -207,7 +170,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
 
-            // Obter data e hora no formato desejado
             const agora = new Date();
             const dia = String(agora.getDate()).padStart(2, '0');
             const mes = String(agora.getMonth() + 1).padStart(2, '0');
@@ -217,30 +179,22 @@ document.addEventListener('DOMContentLoaded', function () {
             const segundo = String(agora.getSeconds()).padStart(2, '0');
             const dataHoraFormatada = `${dia}/${mes}/${ano} ${hora}:${minuto}:${segundo}`;
 
-            // Rodapé: número da página (direita) e data/hora (esquerda)
             const totalPages = pdf.getNumberOfPages();
             pdf.setFontSize(10);
             for (let i = 1; i <= totalPages; i++) {
                 pdf.setPage(i);
-
-                // Inferior direito: número da página
-                pdf.text(`Página ${i} de ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
-
-                // Inferior esquerdo: data e hora
                 pdf.text(dataHoraFormatada, margin, pageHeight - 10);
+                pdf.text(`Página ${i} de ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
             }
 
-            const blob = pdf.output('blob');
-            const blobUrl = URL.createObjectURL(blob);
-            window.open(blobUrl, '_blank');
-            pdf.save('relatorio-alunos.pdf');
+            pdf.save(`relatorio-alunos-${dia}-${mes}-${ano}.pdf`);
 
             elementosEsconder.forEach(el => el.style.display = '');
+            botao.disabled = false;
         });
     });
 });
 </script>
-
 
 </body>
 </html>
