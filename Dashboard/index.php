@@ -1,7 +1,7 @@
 <?php include("../Classe/Conexao.php") ?>
 
 <?php include("../Sidebar/index.php"); ?>
-
+<script src="../Login/inactivity.js"></script>
 <?php
 
 // Dados de exemplo para o gráfico de barras de matrículas
