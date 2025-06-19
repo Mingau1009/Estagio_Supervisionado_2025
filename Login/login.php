@@ -63,7 +63,8 @@ if ($usuario === $usuario_correto && $senha === $senha_correta) {
     $chave = 'chave-secreta';
     $payload = [
         'usuario' => $usuario,
-        'exp' => time() + 120
+        'inicio_inatividade' => null, // Será definido quando o mouse ficar inativo
+        'tempo_maximo_inatividade' => 10 // 2 minutos de inatividade
     ];
 
     $token = criarJWT($payload, $chave);

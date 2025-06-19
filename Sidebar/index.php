@@ -23,7 +23,7 @@
       <li>
         <a href="../Funcionario/index.php">
           <span class="material-symbols-outlined"> badge </span>
-          Cadastro de Funcionário
+          Cadastro de Professores
         </a>
       </li>
       <li>
