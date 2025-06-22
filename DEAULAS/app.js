@@ -13,6 +13,3 @@ $(document).on("click", ".editar-btn", function () {
     $("#editar").modal("show");
 });
 
-$(".botao-gerar-pdf").on("click", function () {
-    window.print();
-});

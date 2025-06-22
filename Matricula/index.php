@@ -19,10 +19,7 @@
 <body>
 
 <?php include("../Classe/Conexao.php") ?>
-
 <?php include("../Sidebar/index.php"); ?>
-
-
 
 <?php $pesquisa = isset($_GET["pesquisa"]) ? $_GET["pesquisa"] : NULL; ?>
 <?php $ordenar = isset($_GET["ordenar"]) ? $_GET["ordenar"] : "ASC"; ?>
@@ -75,6 +72,7 @@
             <th style="width: 80px;">FREQUÊNCIA</th>
             <th style="width: 150px;">OBJETIVO</th>
             <th style="width: 80px;">DATA MATRÍCULA</th>
+            <th class="conteudo-esconder-pdf" style="width: 180px;">AJUSTES</th>
         </tr>
         </thead>
 
@@ -138,11 +136,72 @@
     </div>
 </form>
 
+<form method="POST" id="formulario-editar" action="editar.php">
+    <input type="hidden" name="id" class="form-control">
+    <div class="modal fade" id="editar" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">EDITAR</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Nome Completo:</label>
+                            <input type="text" name="nome" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Data Nascimento:</label>
+                            <input type="date" name="data_nascimento" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>CPF:</label>
+                            <input type="text" name="cpf" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Telefone:</label>
+                            <input type="text" name="telefone" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Endereço:</label>
+                            <input type="text" name="endereco" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Frequência:</label>
+                            <input type="number" name="frequencia" min="2" max="6" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Objetivo:</label>
+                            <input type="text" name="objetivo" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Data de Início:</label>
+                            <input type="date" name="data_matricula" required class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Status:</label>
+                            <select name="ativo" class="form-control" required>
+                                <option value="1">ATIVO</option>
+                                <option value="0">INATIVO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
+                    <button type="submit" class="btn btn-success submit">SALVAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
+<script src="app.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.botao-gerar-pdf').addEventListener('click', function () {
@@ -170,6 +229,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
 
+            // Adiciona retângulo contornando a imagem
+            pdf.setDrawColor(150); // Cor do contorno
+            pdf.setLineWidth(0.5);
+            pdf.rect(margin - 2, margin - 2, imgWidth + 4, imgHeight + 4); // Retângulo com margem
+
             const agora = new Date();
             const dia = String(agora.getDate()).padStart(2, '0');
             const mes = String(agora.getMonth() + 1).padStart(2, '0');
@@ -195,6 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
 
 </body>
 </html>

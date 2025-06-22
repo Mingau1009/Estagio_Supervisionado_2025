@@ -200,3 +200,158 @@ $(document).ready(function() {
         });
     });
 });
+ $(".botao-gerar-pdf").on("click", function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 10;
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Relatório de Alunos frequentadores de aulas", 10, y);
+        y += 12;
+
+        const tableBody = document.querySelectorAll("table tbody tr");
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+
+        tableBody.forEach((row, idx) => {
+            if (y > doc.internal.pageSize.height - 90) {
+                doc.addPage();
+                y = 10;
+            }
+
+            const startY = y;
+            const nomeAula = row.children[0]?.innerText.trim() || "";
+            const alunos = row.children[1]?.innerText.trim() || "";
+            const diaAula = row.children[2]?.innerText.trim() || "";
+            const horarioAula = row.children[3]?.innerText.trim() || "";
+            const professor = row.children[4]?.innerText.trim() || "";
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.text(`Aula: ${nomeAula}`, 15, y); y += 7;
+            doc.text(`Dia: ${diaAula} às ${horarioAula}`, 15, y); y += 7;
+            doc.text(`Professor: ${professor}`, 15, y); y += 7;
+            doc.text(`Alunos Matriculados:`, 15, y); y += 6;
+
+            doc.setFont("helvetica", "normal");
+            alunos.split(', ').forEach(aluno => {
+                if (y > doc.internal.pageSize.height - 20) {
+                    doc.addPage();
+                    y = 10;
+                }
+                doc.text(`- ${aluno.trim()}`, 20, y);
+                y += 6;
+            });
+
+            const endY = y + 2;
+
+            // Desenha um retângulo ao redor da ficha
+            doc.setDrawColor(0);
+            doc.setLineWidth(0.3);
+            doc.rect(10, startY - 10, 190, endY - startY + 15, "S");
+
+            y = endY + 10;
+        });
+
+        // Rodapé
+        const date = new Date();
+        const formattedDate = date.toLocaleString("pt-BR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        });
+
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFontSize(10);
+            doc.text(formattedDate, 10, doc.internal.pageSize.height - 10);
+            const pageText = `Página ${i} de ${pageCount}`;
+            const pageTextWidth = doc.getTextWidth(pageText);
+            doc.text(
+                pageText,
+                doc.internal.pageSize.width - pageTextWidth - 10,
+                doc.internal.pageSize.height - 10
+            );
+        }
+        doc.save("Relatório Geral de Alunos.pdf");
+
+    });
+
+    $(document).on("click", ".gerar-pdf-aula", function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 10;
+
+        const nomeAula = $(this).data('nome_aula');
+        const diaAula = $(this).data('dia_aula');
+        const horarioAula = $(this).data('horario_aula');
+        const professor = $(this).data('professor');
+        const alunos = $(this).data('alunos');
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text(`Professor: ${professor}`, 10, y);
+        y += 12;
+        doc.text(`Nome da aula: ${nomeAula}`, 10, y);
+        y += 12;
+
+        const startY = y;
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        doc.text(`Dia: ${diaAula}`, 15, y);
+        doc.text(`Horário: ${horarioAula}`, 60, y);
+        y += 10;
+
+        doc.text(`Alunos Matriculados:`, 15, y);
+        y += 7;
+
+        doc.setFont("helvetica", "normal");
+        alunos.split(', ').forEach(aluno => {
+            if (y > doc.internal.pageSize.height - 20) {
+                doc.addPage();
+                y = 10;
+            }
+            doc.text(`- ${aluno.trim()}`, 20, y);
+            y += 7;
+        });
+
+        const endY = y + 2;
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.3);
+        doc.rect(10, startY - 10, 190, endY - startY + 15, "S");
+        y = endY + 10;
+
+        // Rodapé
+        const date = new Date();
+        const formattedDate = date.toLocaleString("pt-BR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        });
+
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFontSize(10);
+            doc.text(formattedDate, 10, doc.internal.pageSize.height - 10);
+            const pageText = `Página ${i} de ${pageCount}`;
+            const pageTextWidth = doc.getTextWidth(pageText);
+            doc.text(
+                pageText,
+                doc.internal.pageSize.width - pageTextWidth - 10,
+                doc.internal.pageSize.height - 10
+            );
+        }
+
+        doc.save(`aula de ${nomeAula.replace(/ /g, '_')}.pdf`);
+    });

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../Sidebar/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="../Login/inactivity.js"></script>
 
     <title>ÁREA DE CADASTRO DE FICHA</title>
@@ -26,21 +27,28 @@
         <?php $fichas = Db::conexao()->query("SELECT `ficha`.*, `aluno`.`nome` AS aluno_nome FROM `ficha` INNER JOIN `aluno` ON `aluno`.`id` = `ficha`.`aluno_id`")->fetchAll(PDO::FETCH_OBJ); ?>
 
 <section class="p-3" style="margin-left:85px;">
+    <div class="text-end conteudo-esconder-pdf">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
+            CADASTRAR <i class="bi bi-people"></i>
+        </button>
+    </div>
 
-        <div class="text-end conteudo-esconder-pdf">
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
-                CADASTRAR <i class="bi bi-people"></i>
-            </button>
-        </div>
-        <br />
+    <br>
 
-     <div class="col-12 text-end conteudo-esconder-pdf">
-            <div class="d-inline">
-                <button class="btn btn-danger botao-gerar-pdf" onclick="gerarPDF()">
-                    <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
-                </button>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" id="pesquisa-aluno" class="form-control" placeholder="Buscar por nome do aluno...">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
             </div>
         </div>
+        <div class="col-md-6 text-end conteudo-esconder-pdf">
+            <button class="btn btn-danger botao-gerar-pdf" onclick="gerarPDF()">
+                <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
+            </button>
+        </div>
+    </div>
+</section>
 
     <table class="table table-striped table-hover mt-3 text-center table-bordered">
         <thead>
@@ -354,6 +362,31 @@
       doc.save("fichas_treino.pdf");
     };
   };
+
+$(document).ready(function() {
+    // Função para filtrar a tabela pelo nome do aluno
+    $('#pesquisa-aluno').on('input', function() {
+        const termo = $(this).val().toLowerCase();
+        
+        $('table tbody tr').each(function() {
+            const nomeAluno = $(this).find('td:first').text().toLowerCase();
+            if (nomeAluno.includes(termo)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    // Se quiser que a pesquisa também funcione ao pressionar Enter
+    $('#pesquisa-aluno').keypress(function(e) {
+        if (e.which === 13) { // 13 é o código da tecla Enter
+            e.preventDefault();
+            $(this).trigger('input');
+        }
+    });
+});
+
 </script>
 
 </body>

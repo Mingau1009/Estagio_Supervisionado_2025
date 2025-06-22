@@ -13,6 +13,19 @@
     <title>ÁREA DE CADASTRO DE FICHA</title>
 
     <link rel="stylesheet" href="style.css">
+    <style>
+        .table-responsive {
+            overflow-x: auto;
+        }
+        .conteudo-esconder-pdf {
+            display: block !important;
+        }
+        @media print {
+            .conteudo-esconder-pdf {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
 <?php include("../Classe/Conexao.php") ?>
@@ -21,7 +34,7 @@
 
     <div class="container">
         <?php $nome_aulas = Db::conexao()->query("SELECT * FROM `criar_aula` ORDER BY `nome_aula` ASC")->fetchAll(PDO::FETCH_OBJ);?>
-        <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
+        <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` WHERE ativo = 1")->fetchAll(PDO::FETCH_OBJ);?>
         <?php $exercicios = Db::conexao()->query("SELECT * FROM `exercicio` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
         <?php $aulas = Db::conexao()->query("SELECT ca.*, GROUP_CONCAT(a.nome SEPARATOR ', ') as alunos_nomes FROM `criar_aula` ca INNER JOIN `evento_aluno` ea ON ca.id = ea.evento_id INNER JOIN `aluno` a ON ea.aluno_id = a.id GROUP BY ca.id ORDER BY ca.nome_aula ASC")->fetchAll(PDO::FETCH_OBJ); ?>
 
@@ -43,15 +56,16 @@
             </div>
         </div>
 
+        <div class="table-responsive">
         <table class="table table-striped table-hover mt-3 text-center table-bordered">
             <thead>
                 <tr>
-                    <th style="width: 80px;">NOME DA AULA</th>
-                    <th style="width: 110px;">ALUNOS</th>
-                    <th style="width: 90px;">DIA DA AULA</th>
-                    <th style="width: 20px;">HORÁRIO DA AULA</th>
-                    <th style="width: 100px;">PROFESSOR</th>
-                    <th style="width: 100px;">AJUSTES</th>
+                    <th>NOME DA AULA</th>
+                    <th>ALUNOS</th>
+                    <th>DIA DA AULA</th>
+                    <th>HORÁRIO DA AULA</th>
+                    <th>PROFESSOR</th>
+                    <th class="conteudo-esconder-pdf">AJUSTES</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,20 +78,32 @@
                         <td><?php echo $aula->professor_aula; ?></td>
                         <td class="conteudo-esconder-pdf">
                             <button 
-                                class="conteudo-esconder-pdf btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-aula"
+                                class="btn btn-primary btn-sm botao-selecionar-aula me-1"
                                 data-id="<?php echo $aula->id; ?>"
                                 data-nome_aula="<?php echo $aula->nome_aula; ?>"
                                 data-dia_aula="<?php echo $aula->dia_aula; ?>"
                                 data-horario_aula="<?php echo $aula->horario_aula; ?>"
                                 data-professor="<?php echo $aula->professor_aula; ?>"
+                                data-alunos="<?php echo $aula->alunos_nomes; ?>"
                                 >
-                                EDITAR
+                                <i class=""></i> EDITAR
+                            </button>
+                            <button 
+                                class="btn btn-danger btn-sm gerar-pdf-aula"
+                                data-nome_aula="<?php echo $aula->nome_aula; ?>"
+                                data-dia_aula="<?php echo $aula->dia_aula; ?>"
+                                data-horario_aula="<?php echo $aula->horario_aula; ?>"
+                                data-professor="<?php echo $aula->professor_aula; ?>"
+                                data-alunos="<?php echo $aula->alunos_nomes; ?>"
+                                >
+                                <i class="bi bi-file-earmark-pdf"></i> PDF
                             </button>
                         </td>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
+        </div>
 
         <form method="POST" id="formulario-cadastrar-aluno-evento">
             <div class="modal fade" id="cadastrar" data-bs-backdrop="static">
@@ -115,7 +141,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             <div class="row mt-2 bg-light pt-2 pb-2">
                                 <div class="col-md-12">
@@ -202,18 +227,8 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="app.js"></script>
-
-<script>
-$(document).ready(function() {
-
-    $('.botao-gerar-pdf').click(function() {
-        // Implemente a funcionalidade desejada de gerar PDF aqui
-        alert('Gerar PDF acionado!');
-    });
-});
-</script>
-
+  
 </body>
 </html>
-

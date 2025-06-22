@@ -55,8 +55,8 @@
         <div class="dropdown d-inline">
             <button class="btn btn-warning dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">ORDENAR</button>
             <ul class="dropdown-menu filtro-opcoes" aria-labelledby="filterDropdown">
-                <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=DESC">ÚLTIMOS FUNCIONÁRIOS</a></li>
-                <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=ASC">PRIMEIROS FUNCIONÁRIOS</a></li>
+                <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=DESC">ÚLTIMOS PROFESSORES</a></li>
+                <li><a class="dropdown-item" href="?pesquisa=<?php echo $pesquisa; ?>&ordenar=ASC">PRIMEIROS PROFESSORES</a></li>
             </ul>
         </div>
     </div>
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Salvar PDF
-            pdf.save(`relatorio-alunos-${dia}-${mes}-${ano}.pdf`);
+            pdf.save(`relatorio-professores-${dia}-${mes}-${ano}.pdf`);
 
             // Mostrar os elementos novamente
             elementosEsconder.forEach(el => el.style.display = '');

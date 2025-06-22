@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
 }
+
 body {
   display: flex;
   height: 100vh;
@@ -13,6 +15,7 @@ body {
   background: url('Academia1.png') no-repeat center center fixed;
   background-size: cover;
 }
+
 .login-form {
   position: relative;
   width: 370px;
@@ -24,20 +27,27 @@ body {
   border-radius: 5px;
   box-shadow: inset 0 0 1px #272727;
 }
+
 .text {
   font-size: 30px;
   color: #c7c7c7;
   font-weight: 600;
   letter-spacing: 2px;
 }
+
 form {
   margin-top: 40px;
 }
+
 form .field {
   margin-top: 20px;
   display: flex;
+  position: relative;
+  align-items: center;
 }
-.field .fas {
+
+.field .fas.fa-envelope,
+.field .fas.fa-lock {
   height: 50px;
   width: 60px;
   color: #868686;
@@ -47,25 +57,42 @@ form .field {
   border-right: none;
   border-radius: 5px 0 0 5px;
   background: linear-gradient(#333, #222);
+  text-align: center;
 }
-.field input, form button {
+
+.field input,
+form button {
   height: 50px;
   width: 100%;
   outline: none;
   font-size: 19px;
   color: #868686;
-  padding: 0 15px;
+  padding: 0 45px 0 15px; /* espaço à direita para o olhinho */
   border-radius: 0 5px 5px 0;
   border: 1px solid #444;
   caret-color: #ed0f08;
   background: linear-gradient(#333, #222);
 }
+
+.password-field .fa-eye,
+.password-field .fa-eye-slash {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #868686;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 2;
+}
+
 input:focus {
   color: #ed0f08;
   box-shadow: 0 0 10px rgba(236, 73, 9, 0.8), inset 0 0 10px rgba(236, 73, 9, 0.5);
   background: linear-gradient(#333933, #222922);
   animation: glow 0.8s ease-out infinite alternate;
 }
+
 @keyframes glow {
   0% {
     border-color: #ed0f08;
@@ -76,6 +103,7 @@ input:focus {
     box-shadow: 0 0 25px rgba(236, 73, 9, 1), inset 0 0 15px rgba(236, 73, 9, 0.7);
   }
 }
+
 button {
   margin-top: 30px;
   border-radius: 5px !important;
@@ -83,6 +111,7 @@ button {
   letter-spacing: 1px;
   cursor: pointer;
 }
+
 button:hover {
   color: #ffffff;
   border: 1px solid #ffffff;
@@ -91,14 +120,17 @@ button:hover {
               0 0 15px #ffffff,
               0 2px 0 black;
 }
+
 .link {
   margin-top: 25px;
   color: #868686;
 }
+
 .link a {
   color: #ed0f08;
   text-decoration: none;
 }
+
 .link a:hover {
   text-decoration: underline;
 }

@@ -48,15 +48,6 @@
         </a>
       </li>
       <li class="section-title">
-        <h4><span>Nossos Alunos</span></h4>
-      </li>
-      <li>
-        <a href="../Listagem/index.php">
-          <span class="material-symbols-outlined"> user_attributes </span>
-          Listagem de Alunos
-        </a>
-      </li>
-      <li class="section-title">
         <h4><span>Ficha de Treinos</span></h4>
       </li>
       <li>
@@ -75,15 +66,18 @@
         </a>
       </li>
       <li>
-        <a href="../Antropometria/index.php">
-          <span class="material-symbols-outlined"> straighten </span>
-          Avaliação Antropometria
-        </a>
-      </li>
-      <li>
         <a href="../Dieta/index.php">
           <span class="material-symbols-outlined"> fastfood </span>
           Cadastro de Dieta
+        </a>
+      </li>
+      <li class="section-title">
+        <h4><span>Logs do Sistema</span></h4>
+      </li>
+      <li>
+        <a href="../Classe/logs.php">
+          <span class="material-symbols-outlined"> assignment </span>
+          Ver Logs
         </a>
       </li>
     </ul>

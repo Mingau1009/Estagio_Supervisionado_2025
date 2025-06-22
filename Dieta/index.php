@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../Sidebar/style.css">
     <script src="../Login/inactivity.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <title>ÁREA DE CADASTRO DE FICHA</title>
     <link rel="stylesheet" href="style.css">
@@ -20,23 +21,31 @@
 
     <div class="container">
         <?php $dietas = Db::conexao()->query("SELECT * FROM dieta ORDER BY nome_aluno ASC")->fetchAll(PDO::FETCH_OBJ); ?>
-        <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
+        <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` WHERE ativo = 1")->fetchAll(PDO::FETCH_OBJ);?>
        
-<section class="p-3" style="margin-left:85px;"></section>
+<section class="p-3" style="margin-left:85px;">
+    <div class="text-end conteudo-esconder-pdf">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
+            CADASTRAR <i class="bi bi-people"></i>
+        </button>
+    </div>
 
-        <div class="text-end conteudo-esconder-pdf">
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
-                CADASTRAR <i class="bi bi-people"></i>
-            </button>
+    <br>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" id="pesquisa-aluno" class="form-control" placeholder="Buscar por nome do aluno...">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
         </div>
-
-        <br>
-
-        <div class="col-12 text-end conteudo-esconder-pdf">
+        <div class="col-md-6 text-end conteudo-esconder-pdf">
             <button class="btn btn-danger botao-gerar-pdf">
                 <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
             </button>
         </div>
+    </div>
+</section>
 
         <table class="table table-striped table-hover mt-3 text-center table-bordered">
             <thead>
@@ -78,7 +87,7 @@
                                 EDITAR
                             </button>
                             <button 
-                                class="btn btn-secondary btn-sm p-0 ps-2 pe-2 botao-visualizar-descricao"
+                                class="btn btn-primary btn-sm p-0 ps-2 pe-2 botao-visualizar-descricao"
                                 data-descricao="<?php echo htmlspecialchars($dieta->descricao); ?>"
                             >
                                 VISUALIZAR
@@ -223,7 +232,7 @@
                         <p id="descricao-visualizar" class="text-wrap"></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
                     </div>
                 </div>
             </div>
@@ -234,5 +243,30 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="app.js"></script>
+    <script>
+$(document).ready(function() {
+    // Função para filtrar a tabela pelo nome do aluno
+    $('#pesquisa-aluno').on('input', function() {
+        const termo = $(this).val().toLowerCase();
+        
+        $('table tbody tr').each(function() {
+            const nomeAluno = $(this).find('td:first').text().toLowerCase();
+            if (nomeAluno.includes(termo)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    // Se quiser que a pesquisa também funcione ao pressionar Enter
+    $('#pesquisa-aluno').keypress(function(e) {
+        if (e.which === 13) { // 13 é o código da tecla Enter
+            e.preventDefault();
+            $(this).trigger('input');
+        }
+    });
+});
+</script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 class InactivityManager {
     constructor(options = {}) {
         this.options = {
-            timeout: 120000, // 2 minutos em milissegundos
+            timeout: 1200000, // 2 minutos em milissegundos
             tokenKey: 'token',
             activityKey: 'lastActivity',
             loginUrl: 'index.php',

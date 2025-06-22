@@ -2,53 +2,51 @@
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Meta tag viewport essencial para responsividade -->
     <title>Login</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <style>
-        /* Estilos adicionais para responsividade */
-        @media screen and (max-width: 600px) {
-            .login-form {
-                width: 90% !important;
-                padding: 20px !important;
-            }
-            
-            .login-form .text {
-                font-size: 24px !important;
-            }
-            
-            .field input {
-                padding: 12px 15px 12px 40px !important;
-                font-size: 14px !important;
-            }
-            
-            .field .fas {
-                line-height: 45px !important;
-            }
-            
-            button {
-                padding: 12px !important;
-                font-size: 16px !important;
-            }
-            
-            img {
-                width: 100px !important;
-                height: 100px !important;
-            }
+        .password-field {
+            position: relative;
+            width: 100%;
+        }
+        .password-field input {
+            width: calc(100% - 30px); /* Ajusta o espaço para o ícone */
+            padding-right: 69px; /* Espaço para o ícone */
+        }
+        .password-field .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 20px;
+            color:#877f7f; /* Cor laranja para o ícone */
+        }
+
+        /* Cor laranja para o botão de login */
+        button {
+            background-color: #FFA500; /* Laranja */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff7f00; /* Laranja mais escuro para hover */
         }
     </style>
 </head>
 
 <body>
     <div class="login-form">
-        <div style="overflow-x: auto; width: 100%; text-align: center;"> <!-- Ajuste para centralizar a logo -->
-            <img src="logo.jpeg" alt="Login" style="max-width: 130px; height: auto;"> <!-- Imagem responsiva -->
+        <div style="overflow-x: auto; width: 300px;">
+            <img src="logo.jpeg" alt="Login" style="width: 130px; height: 130px;">
         </div>
-
+        
         <form onsubmit="return login(event)">
-            <div class="text">Login</div>
-
             <div class="field">
                 <div class="fas fa-envelope"></div>
                 <input type="text" id="usuario" placeholder="Usuário" required>
@@ -57,9 +55,9 @@
             <div class="field password-field">
                 <div class="fas fa-lock"></div>
                 <input type="password" id="senha" placeholder="Senha" required>
-                <span class="fas fa-eye" id="togglePassword"></span>
+                <i class="far fa-eye eye-icon" id="togglePassword"></i>
             </div>
-
+            <br>
             <button type="submit">LOGIN</button>
         </form>
     </div>

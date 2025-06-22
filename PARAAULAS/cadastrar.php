@@ -1,5 +1,6 @@
 <?php
 include("../Classe/Conexao.php");
+include("../Classe/Log.php");
 
 header('Content-Type: application/json');
 
@@ -11,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $dados = json_decode(file_get_contents("php://input"), true);
 
-// Validando os dados
 if (!isset($dados['evento_id']) || !isset($dados['alunos']) || !is_array($dados['alunos'])) {
     http_response_code(400);
     echo json_encode(["erro" => "Dados inválidos"]);
@@ -23,15 +23,15 @@ $alunos = $dados['alunos'];
 
 try {
     $conexao = Db::conexao();
-
     $conexao->beginTransaction();
 
     // Verificar se o evento existe
-    $stmtVerifica = $conexao->prepare("SELECT id FROM criar_aula WHERE id = :evento_id");
+    $stmtVerifica = $conexao->prepare("SELECT id, nome_aula FROM criar_aula WHERE id = :evento_id");
     $stmtVerifica->bindValue(":evento_id", $evento_id, PDO::PARAM_INT);
     $stmtVerifica->execute();
     
-    if (!$stmtVerifica->fetch()) {
+    $aula = $stmtVerifica->fetch();
+    if (!$aula) {
         throw new Exception("Aula não encontrada");
     }
 
@@ -50,6 +50,9 @@ try {
         $stmt->bindValue(":aluno_id", $aluno_id, PDO::PARAM_INT);
         $stmt->execute();
     }
+
+    // Registrar a ação no log
+    Log::registrarAulaAluno('CADASTRAR_ALUNOS_AULA', $evento_id, $alunos);
 
     $conexao->commit();
 

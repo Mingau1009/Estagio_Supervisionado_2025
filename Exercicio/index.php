@@ -15,7 +15,6 @@
 <body>
 
 <?php include("../Classe/Conexao.php") ?>
-
 <?php include("../Sidebar/index.php"); ?>
 
 <section class="p-3" style="margin-left:85px;">
@@ -25,15 +24,15 @@
         </button>
     </div>
 
-    <form method="get" class="mb-2 conteudo-esconder-pdf">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="input-group">
-                    <input name="pesquisa" type="text" class="form-control" placeholder="Buscar por nome...">
-                    <span class="input-group-text"><i class="fas fa-search"></i></span>
-                </div>
+    <form method="get" class="mb-2 conteudo-esconder-pdf" id="form-pesquisa">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input name="pesquisa" id="input-pesquisa" type="text" class="form-control" placeholder="Buscar por nome de exercicio..." autocomplete="off">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
             </div>
         </div>
+    </div>
     </form>
 
     <div class="col-12 text-end conteudo-esconder-pdf">
@@ -255,6 +254,35 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+$(document).ready(function() {
+    // Função para filtrar a tabela
+    function filtrarTabela(termo) {
+        termo = termo.toLowerCase();
+        $('table tbody tr').each(function() {
+            const nomeExercicio = $(this).find('td:first').text().toLowerCase();
+            if (nomeExercicio.includes(termo)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
+
+    // Evento de input no campo de pesquisa
+    $('#input-pesquisa').on('input', function() {
+        const termo = $(this).val();
+        filtrarTabela(termo);
+    });
+
+    // Se quiser manter a funcionalidade de submit do formulário também
+    $('#form-pesquisa').on('submit', function(e) {
+        e.preventDefault();
+        const termo = $('#input-pesquisa').val();
+        filtrarTabela(termo);
+    });
+});
+
 </script>
 
 </body>
