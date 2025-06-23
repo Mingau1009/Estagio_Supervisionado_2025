@@ -32,31 +32,31 @@
 
 <?php include("../Sidebar/index.php"); ?>
 
-    <div class="container">
-        <?php $nome_aulas = Db::conexao()->query("SELECT * FROM `criar_aula` ORDER BY `nome_aula` ASC")->fetchAll(PDO::FETCH_OBJ);?>
-        <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` WHERE ativo = 1")->fetchAll(PDO::FETCH_OBJ);?>
-        <?php $exercicios = Db::conexao()->query("SELECT * FROM `exercicio` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
-        <?php $aulas = Db::conexao()->query("SELECT ca.*, GROUP_CONCAT(a.nome SEPARATOR ', ') as alunos_nomes FROM `criar_aula` ca INNER JOIN `evento_aluno` ea ON ca.id = ea.evento_id INNER JOIN `aluno` a ON ea.aluno_id = a.id GROUP BY ca.id ORDER BY ca.nome_aula ASC")->fetchAll(PDO::FETCH_OBJ); ?>
+<div class="container">
+    <?php $nome_aulas = Db::conexao()->query("SELECT * FROM `criar_aula` ORDER BY `nome_aula` ASC")->fetchAll(PDO::FETCH_OBJ);?>
+    <?php $alunos = Db::conexao()->query("SELECT * FROM `aluno` WHERE ativo = 1")->fetchAll(PDO::FETCH_OBJ);?>
+    <?php $exercicios = Db::conexao()->query("SELECT * FROM `exercicio` ORDER BY `nome` ASC")->fetchAll(PDO::FETCH_OBJ);?>
+    <?php $aulas = Db::conexao()->query("SELECT ca.*, GROUP_CONCAT(a.nome SEPARATOR ', ') as alunos_nomes FROM `criar_aula` ca INNER JOIN `evento_aluno` ea ON ca.id = ea.evento_id INNER JOIN `aluno` a ON ea.aluno_id = a.id GROUP BY ca.id ORDER BY ca.nome_aula ASC")->fetchAll(PDO::FETCH_OBJ); ?>
 
-<section class="p-3" style="margin-left:85px;"></section>
+    <section class="p-3" style="margin-left:85px;"></section>
 
-        <br>
-        <div class="text-end conteudo-esconder-pdf">
+    <br>
+    <div class="text-end conteudo-esconder-pdf">
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cadastrar">
             CADASTRAR <i class="bi bi-people"></i>
         </button>
-        </div>   
-        <br>
-        
-        <div class="col-12 text-end conteudo-esconder-pdf">
-            <div class="d-inline">
-                <button class="btn btn-danger botao-gerar-pdf">
-                    <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
-                </button>
-            </div>
+    </div>   
+    <br>
+    
+    <div class="col-12 text-end conteudo-esconder-pdf">
+        <div class="d-inline">
+            <button class="btn btn-danger botao-gerar-pdf">
+                <i class="bi bi-file-earmark-pdf"></i> GERAR PDF
+            </button>
         </div>
+    </div>
 
-        <div class="table-responsive">
+    <div class="table-responsive">
         <table class="table table-striped table-hover mt-3 text-center table-bordered">
             <thead>
                 <tr>
@@ -78,152 +78,152 @@
                         <td><?php echo $aula->professor_aula; ?></td>
                         <td class="conteudo-esconder-pdf">
                             <button 
-                                class="btn btn-primary btn-sm botao-selecionar-aula me-1"
+                                class="btn btn-primary btn-sm p-0 ps-2 pe-2 botao-selecionar-aula me-1"
                                 data-id="<?php echo $aula->id; ?>"
                                 data-nome_aula="<?php echo $aula->nome_aula; ?>"
                                 data-dia_aula="<?php echo $aula->dia_aula; ?>"
                                 data-horario_aula="<?php echo $aula->horario_aula; ?>"
                                 data-professor="<?php echo $aula->professor_aula; ?>"
                                 data-alunos="<?php echo $aula->alunos_nomes; ?>"
-                                >
+                            >
                                 <i class=""></i> EDITAR
                             </button>
                             <button 
-                                class="btn btn-danger btn-sm gerar-pdf-aula"
+                                class="btn btn-danger btn-sm p-0 ps-2 pe-2 gerar-pdf-aula"
                                 data-nome_aula="<?php echo $aula->nome_aula; ?>"
                                 data-dia_aula="<?php echo $aula->dia_aula; ?>"
                                 data-horario_aula="<?php echo $aula->horario_aula; ?>"
                                 data-professor="<?php echo $aula->professor_aula; ?>"
                                 data-alunos="<?php echo $aula->alunos_nomes; ?>"
-                                >
-                                <i class="bi bi-file-earmark-pdf"></i> PDF
+                            >
+                                <i class=""></i> PDF
                             </button>
                         </td>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
-        </div>
-
-        <form method="POST" id="formulario-cadastrar-aluno-evento">
-            <div class="modal fade" id="cadastrar" data-bs-backdrop="static">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">MATRICULA PARA AULA</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <label>AULA</label>
-                                    <select name="aula_id" class="form-control" required>
-                                        <option value="">SELECIONE...</option>
-                                        <?php foreach($nome_aulas as $nome_aula) { ?>
-                                            <option value="<?php echo $nome_aula->id; ?>"><?php echo $nome_aula->nome_aula; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>          
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <label>ALUNO</label>
-                                    <div class="input-group">
-                                        <select name="aluno_id" class="form-control" >
-                                            <option value="">SELECIONE...</option>
-                                            <?php foreach($alunos as $aluno) { ?>
-                                                <option value="<?php echo $aluno->id; ?>"><?php echo $aluno->nome; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-primary botao-cadastro-alunos">ADICIONAR ALUNO</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mt-2 bg-light pt-2 pb-2">
-                                <div class="col-md-12">
-                                    <table class="table table-sm table-striped table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Alunos:</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="cadastro-alunos"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
-                            <button type="submit" class="btn btn-success submit">CADASTRAR</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        <form method="POST" id="formulario-editar-aluno-evento">
-            <input type="hidden" name="id">
-            <div class="modal fade" id="editar" data-bs-backdrop="static">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">EDITAR MATRICULA PARA AULA</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <label>AULA</label>
-                                    <select name="aula_id" class="form-control" required disabled>
-                                        <option value="">SELECIONE...</option>
-                                        <?php foreach($nome_aulas as $nome_aula) { ?>
-                                            <option value="<?php echo $nome_aula->id; ?>"><?php echo $nome_aula->nome_aula; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>          
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <label>ALUNO</label>
-                                    <div class="input-group">
-                                        <select name="aluno_id" class="form-control" >
-                                            <option value="">SELECIONE...</option>
-                                            <?php foreach($alunos as $aluno) { ?>
-                                                <option value="<?php echo $aluno->id; ?>"><?php echo $aluno->nome; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-primary botao-editar-alunos">ADICIONAR ALUNO</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mt-2 bg-light pt-2 pb-2">
-                                <div class="col-md-12">
-                                    <table class="table table-sm table-striped table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Alunos:</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="editar-alunos"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
-                            <button type="submit" class="btn btn-success submit">EDITAR</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
     </div>
+
+    <form method="POST" id="formulario-cadastrar-aluno-evento">
+        <div class="modal fade" id="cadastrar" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">MATRICULA PARA AULA</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label>AULA</label>
+                                <select name="aula_id" class="form-control" required>
+                                    <option value="">SELECIONE...</option>
+                                    <?php foreach($nome_aulas as $nome_aula) { ?>
+                                        <option value="<?php echo $nome_aula->id; ?>"><?php echo $nome_aula->nome_aula; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>          
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label>ALUNO</label>
+                                <div class="input-group">
+                                    <select name="aluno_id" class="form-control" >
+                                        <option value="">SELECIONE...</option>
+                                        <?php foreach($alunos as $aluno) { ?>
+                                            <option value="<?php echo $aluno->id; ?>"><?php echo $aluno->nome; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary botao-cadastro-alunos">ADICIONAR ALUNO</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 bg-light pt-2 pb-2">
+                            <div class="col-md-12">
+                                <table class="table table-sm table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Alunos:</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cadastro-alunos"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
+                        <button type="submit" class="btn btn-success submit">CADASTRAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form method="POST" id="formulario-editar-aluno-evento">
+        <input type="hidden" name="id">
+        <div class="modal fade" id="editar" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">EDITAR MATRICULA PARA AULA</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label>AULA</label>
+                                <select name="aula_id" class="form-control" required disabled>
+                                    <option value="">SELECIONE...</option>
+                                    <?php foreach($nome_aulas as $nome_aula) { ?>
+                                        <option value="<?php echo $nome_aula->id; ?>"><?php echo $nome_aula->nome_aula; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>          
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label>ALUNO</label>
+                                <div class="input-group">
+                                    <select name="aluno_id" class="form-control" >
+                                        <option value="">SELECIONE...</option>
+                                        <?php foreach($alunos as $aluno) { ?>
+                                            <option value="<?php echo $aluno->id; ?>"><?php echo $aluno->nome; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary botao-editar-alunos">ADICIONAR ALUNO</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 bg-light pt-2 pb-2">
+                            <div class="col-md-12">
+                                <table class="table table-sm table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Alunos:</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="editar-alunos"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">FECHAR</button>
+                        <button type="submit" class="btn btn-success submit">EDITAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
