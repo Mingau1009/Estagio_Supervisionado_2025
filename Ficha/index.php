@@ -264,5 +264,106 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="app.js"></script>
+
+<script>
+    window.onload = function () {
+    const { jsPDF } = window.jspdf;
+
+    window.gerarPDF = function () {
+      const doc = new jsPDF();
+      let y = 10;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.text("Fichas de Treino", 10, y);
+      y += 12;
+
+      const tableBody = document.querySelectorAll("table tbody tr");
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+
+      tableBody.forEach((row, idx) => {
+        if (y > doc.internal.pageSize.height - 90) {
+            doc.addPage();
+            y = 10;
+        }
+
+        const startY = y;
+        const aluno = row.children[0]?.innerText.trim() || "";
+        const dia = row.children[1]?.innerText.trim() || "";
+        const listaExercicios = row.children[2]?.querySelectorAll("li") || [];
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(12);
+        doc.text(`Aluno: ${aluno}`, 15, y); y += 7;
+        doc.text(`Dia de Treino: ${dia}`, 15, y); y += 7;
+        doc.text(`Exercícios`, 15, y); y += 6;
+
+        doc.setFont("helvetica", "normal");
+        listaExercicios.forEach((li) => {
+            if (y > doc.internal.pageSize.height - 20) {
+            doc.addPage();
+            y = 10;
+            }
+
+            const textoCompleto = li.innerText.trim();
+            
+            // Extrair nome do exercício e detalhes (séries, repetições, descanso)
+            const match = textoCompleto.match(/^(.+?)\s*\(Séries:\s*(\d+),\s*Repetições:\s*(\d+),\s*Descanso:\s*(\d+)\)$/);
+            
+            if (match) {
+              const [, nomeExercicio, series, repeticoes, descanso] = match;
+              doc.text(`- ${nomeExercicio}`, 20, y);
+              y += 5;
+              doc.text(`  Séries: ${series} | Repetições: ${repeticoes} | Descanso: ${descanso}`, 25, y);
+              y += 7;
+            } else {
+              // Fallback caso o formato não seja reconhecido
+              doc.text(`- ${textoCompleto}`, 20, y);
+              y += 6;
+            }
+        });
+
+        const endY = y + 2;
+
+        // ✅ Desenha um retângulo ao redor da ficha
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.3);
+        doc.rect(10, startY - 10, 190, endY - startY + 15, "S");
+
+        y = endY + 10;
+        });
+
+
+      const date = new Date();
+      const formattedDate = date.toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(10);
+        doc.text(formattedDate, 10, doc.internal.pageSize.height - 10);
+        const pageText = `Página ${i} de ${pageCount}`;
+        const pageTextWidth = doc.getTextWidth(pageText);
+        doc.text(
+          pageText,
+          doc.internal.pageSize.width - pageTextWidth - 10,
+          doc.internal.pageSize.height - 10
+        );
+      }
+
+      doc.save("fichas_treino.pdf");
+    };
+  };
+
+</script>
 </body>
 </html>
