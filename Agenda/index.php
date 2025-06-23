@@ -12,17 +12,19 @@
     <title>Agendamento</title>
 </head>
 <body>
+<?php
 
-<?php include("../Classe/Conexao.php") ?>
+// Buscar profissionais (usuários com profissional = 'S')
+$query_professores = "SELECT id, name, phone FROM users WHERE ativo = '1' ORDER BY name ASC";
+$professores = $conn->query($query_professores)->fetchAll(PDO::FETCH_OBJ);
+
+// Buscar clientes (usuários com profissional = 'N')
+$query_alunos = "SELECT id, name, phone FROM users WHERE ativo = '1' ORDER BY name ASC";
+$alunos = $conn->query($query_alunos)->fetchAll(PDO::FETCH_OBJ);
+?>
+
 
 <?php include("../Sidebar/index.php"); ?>
-<?php
-// Buscar professores (usuários) ativos
-$professores = Db::conexao()->query("SELECT id, nome FROM funcionario WHERE ativo = 1 ORDER BY nome ASC")->fetchAll(PDO::FETCH_OBJ);
-
-// Buscar alunos ativos
-$alunos = Db::conexao()->query("SELECT id, nome FROM aluno WHERE ativo = 1 ORDER BY nome ASC")->fetchAll(PDO::FETCH_OBJ);
-?>
 
     <div class="container">
 
@@ -87,6 +89,9 @@ $alunos = Db::conexao()->query("SELECT id, nome FROM aluno WHERE ativo = 1 ORDER
                             <dt class="col-sm-3">Título: </dt>
                             <dd class="col-sm-9" id="visualizar_title"></dd>
 
+                            <dt class="col-sm-3">Observação: </dt>
+                            <dd class="col-sm-9" id="visualizar_obs"></dd>
+
                             <dt class="col-sm-3">Início: </dt>
                             <dd class="col-sm-9" id="visualizar_start"></dd>
 
@@ -130,14 +135,19 @@ $alunos = Db::conexao()->query("SELECT id, nome FROM aluno WHERE ativo = 1 ORDER
                             <input type="hidden" name="edit_id" id="edit_id">
 
                             <div class="row mb-3">
-                            <label for="edit_title" class="col-sm-2 col-form-label">Título</label>
+                                <label for="edit_title" class="col-sm-2 col-form-label">Título</label>
                                 <div class="col-sm-10">
-                                    <select name="edit_title" class="form-control" id="edit_title">
-                                        <option value="" selected disabled>Selecione um título</option>
-                                        <option value="Encontro com Nutricionista">Encontro com Nutricionista</option>
-                                    </select>
+                                    <input type="text" name="edit_title" class="form-control" id="edit_title" placeholder="Título do evento">
                                 </div>
                             </div>
+
+                            <div class="row mb-3">
+                                <label for="edit_obs" class="col-sm-2 col-form-label">Observação</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="edit_obs" class="form-control" id="edit_obs" placeholder="Observação do evento">
+                                </div>
+                            </div>
+
                             <div class="row mb-3">
                                 <label for="edit_start" class="col-sm-2 col-form-label">Início</label>
                                 <div class="col-sm-10">
@@ -172,25 +182,19 @@ $alunos = Db::conexao()->query("SELECT id, nome FROM aluno WHERE ativo = 1 ORDER
                             </div>
 
                             <div class="row mb-3">
-                                <label for="cad_user_id" class="col-sm-2 col-form-label">Professor</label>
+                                <label for="edit_user_id" class="col-sm-2 col-form-label">Profissional</label>
                                 <div class="col-sm-10">
-                                    <select name="cad_user_id" class="form-control" id="cad_user_id" required>
-                                        <option value="">Selecione um professor</option>
-                                        <?php foreach($professores as $professor): ?>
-                                            <option value="<?php echo $professor->id; ?>"><?php echo htmlspecialchars($professor->nome); ?></option>
-                                        <?php endforeach; ?>
+                                    <select name="edit_user_id" class="form-control" id="edit_user_id">
+                                        <option value="">Selecione</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="cad_client_id" class="col-sm-2 col-form-label">Aluno</label>
+                                <label for="edit_client_id" class="col-sm-2 col-form-label">Cliente</label>
                                 <div class="col-sm-10">
-                                    <select name="cad_client_id" class="form-control" id="cad_client_id" required>
-                                        <option value="">Selecione um aluno</option>
-                                        <?php foreach($alunos as $aluno): ?>
-                                            <option value="<?php echo $aluno->id; ?>"><?php echo htmlspecialchars($aluno->nome); ?></option>
-                                        <?php endforeach; ?>
+                                    <select name="edit_client_id" class="form-control" id="edit_client_id">
+                                        <option value="">Selecione</option>
                                     </select>
                                 </div>
                             </div>
@@ -223,12 +227,16 @@ $alunos = Db::conexao()->query("SELECT id, nome FROM aluno WHERE ativo = 1 ORDER
                     <form method="POST" id="formCadEvento">
 
                         <div class="row mb-3">
-                            <label for="edit_title" class="col-sm-2 col-form-label">Título</label>
+                            <label for="cad_title" class="col-sm-2 col-form-label">Título</label>
                             <div class="col-sm-10">
-                                <select name="edit_title" class="form-control" id="edit_title">
-                                    <option value="" selected disabled>Selecione um título</option>
-                                    <option value="Encontro com Nutricionista">Encontro com Nutricionista</option>
-                                </select>
+                                <input type="text" name="cad_title" class="form-control" id="cad_title" placeholder="Título do evento">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="cad_obs" class="col-sm-2 col-form-label">Observação</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="cad_obs" class="form-control" id="cad_obs" placeholder="Observação do evento">
                             </div>
                         </div>
 
@@ -266,28 +274,22 @@ $alunos = Db::conexao()->query("SELECT id, nome FROM aluno WHERE ativo = 1 ORDER
                         </div>
 
                         <div class="row mb-3">
-                        <label for="edit_user_id" class="col-sm-2 col-form-label">Professor</label>
-                        <div class="col-sm-10">
-                            <select name="edit_user_id" class="form-control" id="edit_user_id" required>
-                                <option value="">Selecione um professor</option>
-                                <?php foreach($professores as $professor): ?>
-                                    <option value="<?php echo $professor->id; ?>"><?php echo htmlspecialchars($professor->nome); ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                            <label for="cad_user_id" class="col-sm-2 col-form-label">Profissional</label>
+                            <div class="col-sm-10">
+                                <select name="cad_user_id" class="form-control" id="cad_user_id">
+                                    <option value="">Selecione</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row mb-3">
-                        <label for="edit_client_id" class="col-sm-2 col-form-label">Aluno</label>
-                        <div class="col-sm-10">
-                            <select name="edit_client_id" class="form-control" id="edit_client_id" required>
-                                <option value="">Selecione um aluno</option>
-                                <?php foreach($alunos as $aluno): ?>
-                                    <option value="<?php echo $aluno->id; ?>"><?php echo htmlspecialchars($aluno->nome); ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                        <div class="row mb-3">
+                            <label for="cad_client_id" class="col-sm-2 col-form-label">Cliente</label>
+                            <div class="col-sm-10">
+                                <select name="cad_client_id" class="form-control" id="cad_client_id">
+                                    <option value="">Selecione</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
                         <button type="submit" name="btnCadEvento" class="btn btn-success" id="btnCadEvento">Cadastrar</button>
 
@@ -322,6 +324,7 @@ function gerarPDF() {
     const data = {
         "ID": document.getElementById("visualizar_id").innerText,
         "Título": document.getElementById("visualizar_title").innerText,
+        "Observação": document.getElementById("visualizar_obs").innerText,
         "Início": document.getElementById("visualizar_start").innerText,
         "Fim": document.getElementById("visualizar_end").innerText,
         "Nome do Profissional": document.getElementById("visualizar_name").innerText,

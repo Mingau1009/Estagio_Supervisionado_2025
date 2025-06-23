@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    $(".botao-gerar-pdf").on("click", function(){
-        window.print();
-    });
     
     $('#formulario-cadastrar-dieta').on('submit', function (e) {
         e.preventDefault();

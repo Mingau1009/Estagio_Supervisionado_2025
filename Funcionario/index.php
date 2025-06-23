@@ -69,7 +69,7 @@
             <th style="width: 120px;">DATA DE NASCIMENTO</th>
             <th style="width: 40px;">CPF</th>
             <th style="width: 80px;">TELEFONE</th>
-            <th style="width: 140px;">ENDEREÇO</th>
+            <th style="width: 180px;">ENDEREÇO</th>
             <th style="width: 40px;">TURNO DISPONÍVEL</th>
             <th style="width: 80px;">DATA DE INÍCIO</th>
             <th class="conteudo-esconder-pdf" style="width: 80px;">AJUSTES</th>

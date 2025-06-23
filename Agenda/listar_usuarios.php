@@ -1,26 +1,51 @@
 <?php
+
+// Incluir o arquivo com a conexão com banco de dados
 include_once './conexao.php';
 
-$profissional = filter_input(INPUT_GET, 'profissional', FILTER_SANITIZE_STRING);
+// Receber o valor enviado na URL
+$profissional = filter_input(INPUT_GET, 'profissional', FILTER_DEFAULT);
 
-if($profissional == 'S') {
-    // Listar professores (funcionários)
-    $query = "SELECT id, nome as name, telefone as phone FROM funcionario WHERE ativo = 1 ORDER BY nome ASC";
+// Verificar se o parâmetro profissional foi enviado
+if (!empty($profissional)) {
+
+    // QUERY para recuperar os usuários
+    $query_users = "SELECT id, name 
+                FROM users 
+                WHERE profissional = :profissional
+                ORDER BY name ASC";
+    //$query_users = "SELECT id, name FROM users WHERE id = 100 ORDER BY name ASC";
+
+    // Prepara a QUERY
+    $result_users = $conn->prepare($query_users);
+
+    // Atribuir o valor do parâmetro
+    $result_users->bindParam(':profissional', $profissional);
 } else {
-    // Listar alunos
-    $query = "SELECT id, nome as name, telefone as phone FROM aluno WHERE ativo = 1 ORDER BY nome ASC";
+    // QUERY para recuperar os usuários
+    $query_users = "SELECT id, name FROM users ORDER BY name ASC";
+    //$query_users = "SELECT id, name FROM users WHERE id = 100 ORDER BY name ASC";
+
+    // Prepara a QUERY
+    $result_users = $conn->prepare($query_users);
 }
 
-$result = $conn->prepare($query);
-$result->execute();
+// Executar a QUERY
+$result_users->execute();
 
-if(($result) && ($result->rowCount() != 0)) {
-    while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-        $dados[] = $row;
-    }
+// Acessar o IF quando encontrar usuário no banco de dados
+if (($result_users) and ($result_users->rowCount() != 0)) {
+
+    // Ler os registros recuperado do banco de dados
+    $dados = $result_users->fetchAll(PDO::FETCH_ASSOC);
+
+    // Criar o array com o status e os dados
     $retorna = ['status' => true, 'dados' => $dados];
 } else {
-    $retorna = ['status' => false, 'msg' => 'Nenhum registro encontrado!'];
+
+    // Criar o array com o status e os dados
+    $retorna = ['status' => false, 'msg' => "Nenhum usuário encontrado"];
 }
 
+// Converter o array em objeto e retornar para o JavaScript
 echo json_encode($retorna);
